@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Pragya RO System provides water purifier at lowest price"
+    />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <title>Pragya RO System</title>
+    <style>
+      *,
+      *::after,
+      *::before {
+        /* margin: 0; */
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body,
+      #root {
+        height: 100%;
+      }
+      .preloading-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      .preloading-title {
+        padding: 10px;
+        border: 5px solid #f1f1f1;
+      }
+      .loader {
+        /* border: 16px solid #f3f3f3;  */
+        border-top: 16px solid #3498db; /* Blue */
+        border-bottom: 16px solid blue;
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        animation: spin 2s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root">
+      <div class="preloading-container">
+        <h1 class="preloading-title">Pragya RO System</h1>
+        <div class="loader"></div>
+      </div>
+    </div>
+  </body>
+</html>

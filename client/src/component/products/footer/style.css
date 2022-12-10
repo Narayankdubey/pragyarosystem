@@ -1,0 +1,19 @@
+footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+footer * {
+  margin-top: 5px;
+}
+footer > * > * {
+  margin-top: 5px;
+}
+.footer-left {
+  width: 70%;
+  max-width: 500px;
+}
+.footer-right {
+  /* max-width: 100px; */
+}

@@ -1,0 +1,36 @@
+.carousel-mobile-skeleton {
+  display: none;
+}
+.home-banner {
+  width: 100%;
+  margin: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 300px;
+}
+.home-banner > * {
+  margin: 5px;
+}
+.home-banner-button {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.product-intro-skeleton {
+  margin: 5px;
+  border-radius: 20px;
+}
+@media screen and (max-width: 700px) {
+  .carousel-bigscreen-skeleton {
+    display: none;
+  }
+  .carousel-mobile-skeleton {
+    display: block;
+  }
+}
+.abcd {
+  background-color: rebeccapurple;
+}

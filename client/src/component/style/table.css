@@ -1,0 +1,26 @@
+.table-container {
+}
+.MuiTableContainer-root {
+  height: calc(100vh - 218px);
+}
+.MuiTableHead-root {
+  background-color: #9e2d2dde;
+  font-weight: 900;
+  position: sticky;
+  top: 0%;
+  z-index: 2;
+}
+
+.MuiTableBody-root > .MuiTableRow-root:hover {
+  background-color: #f8f8f8;
+  cursor: pointer;
+}
+
+th {
+  color: white;
+  font-weight: 700;
+}
+
+tr:nth-child(2n) {
+  background: #f8f8f8;
+}

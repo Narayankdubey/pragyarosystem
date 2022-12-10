@@ -1,0 +1,88 @@
+.top-heading {
+  text-align: center;
+  padding: 5px;
+  margin: 0;
+  background-color: #1976d2;
+  animation-name: top-heading-animation;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+}
+@keyframes top-heading-animation {
+  0% {
+    letter-spacing: 5px;
+    color: black;
+  }
+  25% {
+    letter-spacing: 10px;
+    color: red;
+  }
+  50% {
+    letter-spacing: 15px;
+    color: white;
+  }
+  75% {
+    letter-spacing: 10px;
+    color: rgb(200, 255, 0);
+  }
+  100% {
+    letter-spacing: 5px;
+    color: black;
+  }
+}
+@media screen and (max-width: 520px) {
+  .top-heading {
+    font-size: 25px;
+  }
+}
+@media screen and (max-width: 460px) {
+  .top-heading {
+    font-size: 20px;
+  }
+}
+@media screen and (max-width: 417px) {
+  .top-heading {
+    font-size: 15px;
+  }
+}
+@media screen and (max-width: 375px) {
+  .top-heading {
+    font-size: 10px;
+  }
+}
+@media screen and (max-width: 331px) {
+  .top-heading {
+    height: 25px;
+  }
+}
+
+.drawer-nav-menu {
+  padding: 7px;
+  /* width: 90%; */
+  color: black;
+  text-decoration: none;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 0px 45px 45px 0px;
+  transition: 0.2s;
+}
+.drawer-nav-menu:hover {
+  background-color: rgb(239, 239, 241);
+}
+.drawer-nav-menu:focus {
+  background-color: rgb(140, 140, 240);
+}
+.inactive {
+  color: white;
+}
+.active {
+  color: rgb(255, 255, 255);
+  background-color: rgb(140, 140, 240);
+}
+
+.contact-drawer-nav {
+  margin: 5px auto;
+  flex-direction: column;
+}
+.contact-drawer-nav > a {
+  margin-top: 5px;
+}
