@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/static/css/main.6353e52a.css",
+    "main.js": "/static/js/main.c0f06dfe.js",
+    "static/css/748.02b2bb01.chunk.css": "/static/css/748.02b2bb01.chunk.css",
+    "static/js/748.aac1549e.chunk.js": "/static/js/748.aac1549e.chunk.js",
+    "static/js/524.86fc8758.chunk.js": "/static/js/524.86fc8758.chunk.js",
+    "static/media/PragyaROSystem.apk": "/static/media/PragyaROSystem.0e6c3a77d50006938bf6.apk",
+    "static/media/carosel_black.jpg": "/static/media/carosel_black.c0a3305df0884e92542b.jpg",
+    "static/media/offer.jpeg": "/static/media/offer.6c16ae51fe6d8269413a.jpeg",
+    "static/media/navvarsh.jpeg": "/static/media/navvarsh.c1c9d29838d70a9f961d.jpeg",
+    "static/media/loader.gif": "/static/media/loader.6b343efacd46ebcfd84b.gif",
+    "index.html": "/index.html",
+    "main.6353e52a.css.map": "/static/css/main.6353e52a.css.map",
+    "main.c0f06dfe.js.map": "/static/js/main.c0f06dfe.js.map",
+    "748.02b2bb01.chunk.css.map": "/static/css/748.02b2bb01.chunk.css.map",
+    "748.aac1549e.chunk.js.map": "/static/js/748.aac1549e.chunk.js.map",
+    "524.86fc8758.chunk.js.map": "/static/js/524.86fc8758.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6353e52a.css",
+    "static/js/main.c0f06dfe.js"
+  ]
+}

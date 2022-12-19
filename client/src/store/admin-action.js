@@ -7,7 +7,7 @@ import authHeader from "../authHeader";
 import { uiActions } from "./ui-slice";
 
 // const baseURL = process.env.REACT_APP_API_BASE_URL;
-const baseURL = "https://pragyarosystem.herokuapp.com/api/";
+const baseURL = "https://pragyarosystem.onrender.com/api/";
 
 export const adminLogin = (data) => {
   return async (dispatch) => {
