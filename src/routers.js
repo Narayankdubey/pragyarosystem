@@ -128,16 +128,18 @@ const {
   getContactUsDetail,
   updateContactUs,
   deleteContactUs,
+  sendEmails,
 } = require("./controller/contactUsController");
 
 // Router.post("/products", isAuthorized, upload.single("img"), storeProducts);
 Router.post("/api-contactus", storeContactUs);
 Router.get("/api-contactus", isAuthorized, getContactUs);
-Router.get("/api-contactus/:id", getContactUsDetail);
-Router.patch("/api-contactus/:id", updateContactUs);
-Router.delete("/api-contactus/:id", deleteContactUs);
+Router.get("/api-contactus/:id",isAuthorized, getContactUsDetail);
+Router.patch("/api-contactus/:id",isAuthorized, updateContactUs);
+Router.delete("/api-contactus/:id",isAuthorized, deleteContactUs);
+Router.post("/sendallemails",isAuthorized,sendEmails)
 
-// ////////  ROLES  /////////
+///////////  ROLES  /////////
 
 // const {
 //   storeRoles,

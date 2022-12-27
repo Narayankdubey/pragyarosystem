@@ -48,6 +48,7 @@ import Box from "@mui/material/Box";
 import Visitor from "../visitor";
 import AdminProducts from "../products";
 import ContactUs from "../contactUs";
+import Emails from "../emails";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -83,7 +84,6 @@ function a11yProps(index) {
 }
 
 export default function AdminHome() {
-  const theme = useTheme();
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -104,6 +104,7 @@ export default function AdminHome() {
           <Tab label="Buy Now" {...a11yProps(1)} />
           <Tab label="Contact Us" {...a11yProps(2)} />
           <Tab label="Products" {...a11yProps(3)} />
+          <Tab label="Emails" {...a11yProps(4)} />
         </Tabs>
       </Box>
 
@@ -118,6 +119,9 @@ export default function AdminHome() {
       </TabPanel>
       <TabPanel value={value} index={3}>
         <AdminProducts />
+      </TabPanel>
+      <TabPanel value={value} index={4}>
+        <Emails />
       </TabPanel>
     </Box>
   );

@@ -11,4 +11,17 @@ const customPagination = (data = [], limit = 15, page = 1) => {
   };
 };
 
-module.exports = { customPagination };
+const validate = (type, value) => {
+  switch (type) {
+    case "email":
+      // return value.match(
+      //   /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      // );
+      return true
+
+    default:
+      return
+  }
+}
+
+module.exports = { customPagination,validate };

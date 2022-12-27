@@ -1,6 +1,8 @@
 const contactUsModal = require("../model/contactUs");
 // const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { sendMail } = require("../utils/emailSender");
+const { validate } = require("../utils/utilities");
 
 // POST //
 const storeContactUs = async (req, res) => {
@@ -73,6 +75,30 @@ const deleteContactUs = async (req, res) => {
   }
 };
 
+// SEND EMAIL TO ALL //
+const sendEmails = async (req, res) => {
+  try {
+    const subject = req.subject;
+    const text = req.text;
+    const contactUsData = await contactUsModal.find({},{email:1,_id:0});
+    let emails = [{email:"narayan.k.dubey@gmail.com"}, {email:"narayan.k.dubey2@gmail.com"},{email:"narayan.d.com"}]
+    let emailStatus = [];
+    for(let i = 0; i<emails.length;i++){
+      if (validate("email",emails[i].email)) {
+        try{
+          result = await sendMail(emails[i].email, subject, text)
+          emailStatus.push({[emails[i].email]:result})
+        }catch(e){
+          emailStatus.push({[emails[i].email]:"failed"})
+        }
+      }
+    }
+    res.send(emailStatus);
+  } catch (e) {
+    res.send(e);
+  }
+}
+
 // EXPORT //
 module.exports = {
   storeContactUs,
@@ -80,4 +106,5 @@ module.exports = {
   getContactUsDetail,
   updateContactUs,
   deleteContactUs,
+  sendEmails,
 };
