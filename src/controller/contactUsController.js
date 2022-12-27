@@ -96,13 +96,13 @@ const sendEmails = async (req, res) => {
     const socketInstance = io.to(thisSocketId);
 
       for(let i = 0; i<emails.length;i++){
-        if (validate("email",emails[i].email)) {
+        if (validate("email",emails[i])) {
           try{
-            result = await sendMail(emails[i].email, subject, text)
-            emailStatus.push({email:emails[i].email, status:result})
+            result = await sendMail(emails[i], subject, text)
+            emailStatus.push({email:emails[i], status:result})
             socketInstance.emit("sendEmail", {value:i+1,length:emails.length})
           }catch(e){
-            emailStatus.push({email:emails[i].email, status:"Failed"})
+            emailStatus.push({email:emails[i], status:"Failed"})
           }
         }
       }
