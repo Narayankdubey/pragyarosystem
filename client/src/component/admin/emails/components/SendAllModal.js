@@ -6,13 +6,11 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { useSelector, useDispatch } from "react-redux";
-
-import { sendAllEmail } from "../../../../store/admin-action";
+import ConfirmModal from './ConfirmModal';
 
 export default function SendAllModal({ open, setOpen }) {
-  const dispatch = useDispatch();
   const [inputValue, setInputValue]=useState({subject:"",text:""})
+  const [confirmOpen,setConfirmOpen] = useState(false)
 
   const handleClose = () => setOpen(false);
 
@@ -21,13 +19,14 @@ export default function SendAllModal({ open, setOpen }) {
   }
   const onSubmitHandler = (e)=>{
     e.preventDefault();
-    console.log(inputValue,"value")
-    dispatch(sendAllEmail(inputValue))
-    handleClose()
+    setConfirmOpen(true)
+    // dispatch(sendAllEmail({...inputValue,socketSessionId:thisSessionId}))
+    // handleClose()
   }
 
   return (
     <div>
+      {confirmOpen && <ConfirmModal open={confirmOpen} setOpen={setConfirmOpen} inputValue={inputValue}/>}
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Send Email To All Emails</DialogTitle>
         <DialogContent>

@@ -4,6 +4,8 @@ const jwt = require("jsonwebtoken");
 const { sendMail } = require("../utils/emailSender");
 const { validate } = require("../utils/utilities");
 
+// Server
+
 // POST //
 const storeContactUs = async (req, res) => {
   try {
@@ -78,22 +80,32 @@ const deleteContactUs = async (req, res) => {
 // SEND EMAIL TO ALL //
 const sendEmails = async (req, res) => {
   try {
-    console.log(req.body,"req.body")
     const subject = req.body.subject;
     const text = req.body.text;
-    const contactUsData = await contactUsModal.find({},{email:1,_id:0});
-    let emails = [{email:"narayan.k.dubey@gmail.com"}, {email:"narayan.k.dubey2@gmail.com"},{email:"narayan.d.com"}]
+    const socketSessionId = req.body.socketSessionId;
+    const contactUsData = await contactUsModal.find({}, { email: 1, _id: 0 });
+    let emails = []
+    contactUsData.forEach((data)=>{
+      if(!emails.includes(data.email) && data.email.length > 4 && data.email.includes("@"))
+        emails.push(data.email.toLowerCase())
+    })
     let emailStatus = [];
-    for(let i = 0; i<emails.length;i++){
-      if (validate("email",emails[i].email)) {
-        try{
-          result = await sendMail(emails[i].email, subject, text)
-          emailStatus.push({[emails[i].email]:result})
-        }catch(e){
-          emailStatus.push({[emails[i].email]:"failed"})
+    const io = req.app.get('io');
+    const sockets = req.app.get('sockets');
+    const thisSocketId = sockets[socketSessionId];
+    const socketInstance = io.to(thisSocketId);
+
+      for(let i = 0; i<emails.length;i++){
+        if (validate("email",emails[i].email)) {
+          try{
+            // result = await sendMail(emails[i].email, subject, text)
+            // emailStatus.push({email:emails[i].email, status:result})
+            socketInstance.emit("sendEmail", {value:i+1,length:emails.length})
+          }catch(e){
+            emailStatus.push({email:emails[i].email, status:"Failed"})
+          }
         }
       }
-    }
     res.send(emailStatus);
   } catch (e) {
     res.send(e);

@@ -7,6 +7,7 @@ const initialState = {
   skeleton: false,
   filterElementLoader: false,
   searchLoader: false,
+  emailSendLoader: false
 };
 
 const uiSlice = createSlice({
@@ -38,6 +39,9 @@ const uiSlice = createSlice({
     },
     searchLoader(state, action) {
       state.searchLoader = action.payload;
+    },
+    emailSendLoader(state, action) {
+      state.emailSendLoader = action.payload;
     },
   },
 });

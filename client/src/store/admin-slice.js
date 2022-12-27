@@ -7,6 +7,7 @@ const initialState = {
   visitorModal: false,
   visitors: [],
   contactUsData: [],
+  sentEmailData : [],
 };
 
 const adminSlice = createSlice({
@@ -34,6 +35,9 @@ const adminSlice = createSlice({
     },
     updateContactUsList: (state, action) => {
       state.contactUsData = action.payload;
+    },
+    updateSentEmailList: (state, action) => {
+      state.sentEmailData = action.payload;
     },
   },
 });

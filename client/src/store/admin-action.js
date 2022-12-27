@@ -6,9 +6,9 @@ import { productActions } from "./product-slice";
 import authHeader from "../authHeader";
 import { uiActions } from "./ui-slice";
 
-// const baseURL = "http://localhost:4000/api/";
+const baseURL = "http://localhost:4000/api/";
 // const baseURL = process.env.REACT_APP_API_BASE_URL;
-const baseURL = "https://pragyarosystem.onrender.com/api/";
+// const baseURL = "https://pragyarosystem.onrender.com/api/";
 
 export const adminLogin = (data) => {
   return async (dispatch) => {
@@ -297,7 +297,7 @@ export const deleteProduct = (id) => {
 };
 export const sendAllEmail = (data) => {
   return async (dispatch) => {
-    dispatch(uiActions.toggleLoader());
+    dispatch(uiActions.emailSendLoader(true));
     const sendMail = async () => {
       const response = await axios.post(`${baseURL}sendallemails`,data, {
         headers: authHeader(),
@@ -310,7 +310,7 @@ export const sendAllEmail = (data) => {
     try {
       const data = await sendMail();
       if (data.status === 200) {
-        // dispatch(productActions.deleteProduct(data.data));
+        dispatch(adminActions.updateSentEmailList(data.data));
       }
       dispatch(
         uiActions.showNotification({
@@ -331,7 +331,7 @@ export const sendAllEmail = (data) => {
         );
       }
     } finally {
-      dispatch(uiActions.toggleLoader());
+      dispatch(uiActions.emailSendLoader(false));
     }
   };
 };
