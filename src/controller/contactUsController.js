@@ -78,8 +78,9 @@ const deleteContactUs = async (req, res) => {
 // SEND EMAIL TO ALL //
 const sendEmails = async (req, res) => {
   try {
-    const subject = req.subject;
-    const text = req.text;
+    console.log(req.body,"req.body")
+    const subject = req.body.subject;
+    const text = req.body.text;
     const contactUsData = await contactUsModal.find({},{email:1,_id:0});
     let emails = [{email:"narayan.k.dubey@gmail.com"}, {email:"narayan.k.dubey2@gmail.com"},{email:"narayan.d.com"}]
     let emailStatus = [];

@@ -56,6 +56,7 @@ export const adminLogin = (data) => {
     }
   };
 };
+
 export const createProducts = (data) => {
   return async (dispatch) => {
     dispatch(uiActions.toggleLoader());
@@ -94,6 +95,7 @@ export const createProducts = (data) => {
     }
   };
 };
+
 export const checkLoginStatus = () => {
   return async (dispatch) => {
     dispatch(uiActions.toggleLoader());
@@ -111,6 +113,7 @@ export const checkLoginStatus = () => {
     }
   };
 };
+
 export const logout = () => {
   return async (dispatch) => {
     try {
@@ -121,6 +124,7 @@ export const logout = () => {
     }
   };
 };
+
 export const saveVisitor = (data) => {
   return async (dispatch) => {
     dispatch(uiActions.toggleLoader());
@@ -291,3 +295,44 @@ export const deleteProduct = (id) => {
     }
   };
 };
+export const sendAllEmail = (data) => {
+  return async (dispatch) => {
+    dispatch(uiActions.toggleLoader());
+    const sendMail = async () => {
+      const response = await axios.post(`${baseURL}sendallemails`,data, {
+        headers: authHeader(),
+      });
+      if (response.status === "failure") {
+        throw new Error(response.data.message);
+      }
+      return response;
+    };
+    try {
+      const data = await sendMail();
+      if (data.status === 200) {
+        // dispatch(productActions.deleteProduct(data.data));
+      }
+      dispatch(
+        uiActions.showNotification({
+          status: "success",
+          title: "success",
+          message: "Email sent Successfully !",
+        })
+      );
+    } catch (error) {
+      console.log(error);
+      if (error.response) {
+        dispatch(
+          uiActions.showNotification({
+            status: "error",
+            title: "error",
+            message: error.response.data,
+          })
+        );
+      }
+    } finally {
+      dispatch(uiActions.toggleLoader());
+    }
+  };
+};
+
