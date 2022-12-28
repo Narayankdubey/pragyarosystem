@@ -6,8 +6,8 @@ import { productActions } from "./product-slice";
 import authHeader from "../authHeader";
 import { uiActions } from "./ui-slice";
 
-// const baseURL = "http://localhost:4000/api/";
-const baseURL = process.env.REACT_APP_API_BASE_URL;
+const baseURL = "http://localhost:4000/api/";
+// const baseURL = process.env.REACT_APP_API_BASE_URL;
 // const baseURL = "https://pragyarosystem.onrender.com/api/";
 
 export const adminLogin = (data) => {
@@ -190,6 +190,7 @@ export const getAllVisitors = () => {
     }
   };
 };
+
 export const getAllContactUs = () => {
   return async (dispatch) => {
     // dispatch(uiActions.toggleLoader());
@@ -222,6 +223,7 @@ export const getAllContactUs = () => {
     }
   };
 };
+
 export const updateContactUs = (id, data) => {
   return async (dispatch) => {
     // dispatch(uiActions.toggleLoader());
@@ -251,6 +253,38 @@ export const updateContactUs = (id, data) => {
       }
     } finally {
       // dispatch(uiActions.toggleLoader());
+    }
+  };
+};
+
+export const getAllServiceRequests = () => {
+  return async (dispatch) => {
+    dispatch(adminActions.updateServiceRequestLoader(true))
+    const getData = async () => {
+      const response = await axios.get(`${baseURL}service`, {
+        headers: authHeader(),
+      });
+      if (response.status === "failure") {
+        throw new Error(response.data.message);
+      }
+      return response;
+    };
+    try {
+      const data = await getData();
+      dispatch(adminActions.updateServiceRequestList(data.data));
+    } catch (error) {
+      console.log(error);
+      if (error.response) {
+        dispatch(
+          uiActions.showNotification({
+            status: "error",
+            title: "error",
+            message: error.response.data,
+          })
+        );
+      }
+    } finally {
+      dispatch(adminActions.updateServiceRequestLoader(false))
     }
   };
 };
@@ -295,6 +329,7 @@ export const deleteProduct = (id) => {
     }
   };
 };
+
 export const sendAllEmail = (data) => {
   return async (dispatch) => {
     dispatch(uiActions.emailSendLoader(true));

@@ -1,9 +1,10 @@
 import React from "react";
-import { Typography, Button } from "@mui/material";
+import { Typography, Button, Grid } from "@mui/material";
 import CallIcon from "@mui/icons-material/Call";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 
 import "./style.css";
+import ServiceForm from "./components/ServiceForm";
 
 const Service = () => {
   return (
@@ -54,6 +55,9 @@ const Service = () => {
           <a href="mailto:pragyarosytem@gmail.com">Email</a>
         </Typography>
       </div>
+      <Grid>
+        <ServiceForm />
+      </Grid>
     </div>
   );
 };

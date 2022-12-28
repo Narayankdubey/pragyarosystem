@@ -7,6 +7,8 @@ const initialState = {
   visitorModal: false,
   visitors: [],
   contactUsData: [],
+  serviceRequestData: [],
+  serviceRequestLoader:false,
   sentEmailData : [],
 };
 
@@ -35,6 +37,12 @@ const adminSlice = createSlice({
     },
     updateContactUsList: (state, action) => {
       state.contactUsData = action.payload;
+    },
+    updateServiceRequestList: (state, action) => {
+      state.serviceRequestData = action.payload;
+    },
+    updateServiceRequestLoader: (state, action) => {
+      state.serviceRequestLoader = action.payload;
     },
     updateSentEmailList: (state, action) => {
       state.sentEmailData = action.payload;

@@ -6,24 +6,26 @@ import {
   TextField,
   Typography,
   InputAdornment,
+  Box,
 } from "@mui/material";
 
-import "./style.css";
-import { saveContactUs } from "../../../store/product-action";
+// import "./style.css";
+import { saveServiceRequest } from "../../../../store/product-action";
 
 const initialState = {
   name: "",
   mobile: "",
   email: "",
   address: "",
-  feedback: "",
+  issue: "",
+  productName: "",
 };
 
-const ContactUsForm = () => {
+const ServiceForm = () => {
   const dispatch = useDispatch();
   const [inputData, setInputData] = useState(initialState);
   const [error, setError] = useState({});
-  const { name, mobile, email, address, feedback } = inputData;
+  const { name, mobile, email, address, issue, productName } = inputData;
   const formFields = [
     {
       name: "name",
@@ -54,11 +56,18 @@ const ContactUsForm = () => {
       label: "Address",
     },
     {
-      name: "feedback",
+      name: "productName",
       type: "text",
-      placeholder: "Enter Your Feedback",
-      value: feedback,
-      label: "Feedback",
+      placeholder: "Enter Your Product Name",
+      value: productName,
+      label: "Product Name",
+    },
+    {
+      name: "issue",
+      type: "text",
+      placeholder: "Enter Your Issues",
+      value: issue,
+      label: "Issues",
     },
   ];
 
@@ -83,6 +92,11 @@ const ContactUsForm = () => {
     if (inputData.email.trim().length > 0 && !emailReg.test(inputData.email)) {
       errors.email = "Enter a valid email";
     }
+    if (!inputData.productName.trim()) {
+      errors.productName = "Product Name Required";
+    } else if (!nameReg.test(inputData.productName)) {
+      errors.productName = "Enter a valid Product Name";
+    }
 
     return errors;
   };
@@ -95,73 +109,55 @@ const ContactUsForm = () => {
     setError(errorCheck);
 
     if (noErrors) {
-      dispatch(saveContactUs(inputData));
+      dispatch(saveServiceRequest(inputData));
       setInputData(initialState);
     }
   };
   return (
     <div className="contact-form-container">
-      <Typography variant="h3">Let's Connect</Typography>
+      <Box>
+        <Typography variant="h3">Request Service</Typography>
+        <Typography variant="body1">Give your email to get updates</Typography>
+      </Box>
       <Paper
         component="form"
         onSubmit={onSubmitHandler}
         style={{ backgroundColor: "#f1f1f1" }}
       >
-        {/* <form action=""> */}
-        {formFields.map((data, index) => {
-          return (
-            <TextField
-              error={error[data.name] ? true : false}
-              key={index}
-              type={data.type}
-              label={data.label}
-              name={data.name}
-              value={data.value}
-              placeholder={data.placeholder}
-              multiline={data.name === "feedback" ? true : false}
-              rows={data.name === "feedback" ? 3 : null}
-              fullWidth
-              variant="standard"
-              size="small"
-              onChange={onChangeHandler}
-              InputProps={
-                data.name === "mobile"
-                  ? {
-                      startAdornment: (
-                        <InputAdornment position="start">+91</InputAdornment>
-                      ),
-                    }
-                  : null
-              }
-            />
-          );
-        })}
-        {/* <TextField label="Name" fullWidth variant="standard" size="small" />
-        <TextField
-          label="Mobile No."
-          type="number"
-          fullWidth
-          variant="standard"
-          size="small"
-        />
-        <TextField label="Email" fullWidth variant="standard" size="small" />
-        <TextField label="Address" fullWidth variant="standard" size="small" />
-        <TextField
-          label="Feedback"
-          multiline
-          rows={3}
-          placeholder="Enter your feedback"
-          fullWidth
-          variant="standard"
-          size="small"
-        /> */}
-        <Button type="submit" variant="contained">
-          Submit
-        </Button>
-        {/* </form> */}
+          {formFields.map((data, index) => {
+            return (
+              <TextField
+                error={error[data.name] ? true : false}
+                key={index}
+                type={data.type}
+                label={data.label}
+                name={data.name}
+                value={data.value}
+                placeholder={data.placeholder}
+                multiline={data.name === "feedback" ? true : false}
+                rows={data.name === "feedback" ? 3 : null}
+                fullWidth
+                variant="standard"
+                size="small"
+                onChange={onChangeHandler}
+                InputProps={
+                  data.name === "mobile"
+                    ? {
+                        startAdornment: (
+                          <InputAdornment position="start">+91</InputAdornment>
+                        ),
+                      }
+                    : null
+                }
+              />
+            );
+          })}
+          <Button type="submit" variant="contained">
+            Submit
+          </Button>
       </Paper>
     </div>
   );
 };
 
-export default ContactUsForm;
+export default ServiceForm;

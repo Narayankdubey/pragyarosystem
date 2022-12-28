@@ -1,54 +1,15 @@
-// import * as React from "react";
-// import { Link } from "react-router-dom";
-// import Box from "@mui/material/Box";
-// import Tabs from "@mui/material/Tabs";
-// import Tab from "@mui/material/Tab";
-
-// function LinkTab(props) {
-//   return (
-//     <Tab
-//       component={Link}
-//       onClick={(event) => {
-//         event.preventDefault();
-//       }}
-//       {...props}
-//     />
-//   );
-// }
-
-// export default function AdminHome() {
-//   const [value, setValue] = React.useState(0);
-
-//   const handleChange = (event, newValue) => {
-//     setValue(newValue);
-//   };
-
-//   return (
-//     <Box sx={{ width: "100%" }}>
-//       <Tabs value={value} onChange={handleChange} aria-label="nav tabs example">
-//         <LinkTab label="Visitors" to="/admin/visitor" />
-//         <Link to="/admin/visitor">visitor link</Link>
-//         <Tab label="Visitors Tab" component="a" to="/admin/visitor" />
-//         {/* <LinkTab label="Buy Now" href="/trash" />
-//         <LinkTab label="Contact Us" href="/spam" />
-//         <LinkTab label="Products" href="/spam" /> */}
-//       </Tabs>
-//     </Box>
-//   );
-// }
-
-import * as React from "react";
+import React, { lazy, Suspense } from "react";
 import PropTypes from "prop-types";
-import { useTheme } from "@mui/material/styles";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
-import Visitor from "../visitor";
-import AdminProducts from "../products";
-import ContactUs from "../contactUs";
-import Emails from "../emails";
+const Visitor = lazy(() => import("../visitor"));
+const AdminProducts = lazy(() => import("../products"));
+const ContactUs = lazy(() => import("../contactUs"));
+const Emails = lazy(() => import("../emails"));
+const ServiceRequest = lazy(() => import("../service"));
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -103,25 +64,39 @@ export default function AdminHome() {
           <Tab label="Visitors" {...a11yProps(0)} />
           <Tab label="Buy Now" {...a11yProps(1)} />
           <Tab label="Contact Us" {...a11yProps(2)} />
-          <Tab label="Products" {...a11yProps(3)} />
-          <Tab label="Emails" {...a11yProps(4)} />
+          <Tab label="Service Requests" {...a11yProps(3)} />
+          <Tab label="Products" {...a11yProps(4)} />
+          <Tab label="Emails" {...a11yProps(5)} />
         </Tabs>
       </Box>
 
       <TabPanel value={value} index={0}>
-        <Visitor />
+        <Suspense fallback={<></>}>
+          <Visitor />
+        </Suspense>
       </TabPanel>
       <TabPanel value={value} index={1}>
         Buy Now is Coming Soon...
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <ContactUs />
+        <Suspense fallback={<></>}>
+          <ContactUs />
+        </Suspense>
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <AdminProducts />
+        <Suspense fallback={<></>}>
+          <ServiceRequest />
+        </Suspense>
       </TabPanel>
       <TabPanel value={value} index={4}>
-        <Emails />
+        <Suspense fallback={<></>}>
+          <AdminProducts />
+        </Suspense>
+      </TabPanel>
+      <TabPanel value={value} index={5}>
+        <Suspense fallback={<></>}>
+          <Emails />
+        </Suspense>
       </TabPanel>
     </Box>
   );

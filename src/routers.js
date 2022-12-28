@@ -139,6 +139,24 @@ Router.patch("/api-contactus/:id",isAuthorized, updateContactUs);
 Router.delete("/api-contactus/:id",isAuthorized, deleteContactUs);
 Router.post("/sendallemails",isAuthorized,sendEmails)
 
+
+///////////  SERVICE  /////////
+
+const {
+  storeService,
+  getService,
+  getServiceDetail,
+  updateService,
+  deleteService,
+} = require("./controller/serviceController");
+
+// Router.post("/products", isAuthorized, upload.single("img"), storeProducts);
+Router.post("/service", storeService);
+Router.get("/service", isAuthorized, getService);
+Router.get("/service/:id",isAuthorized, getServiceDetail);
+Router.patch("/service/:id",isAuthorized, updateService);
+Router.delete("/service/:id",isAuthorized, deleteService);
+
 ///////////  ROLES  /////////
 
 // const {

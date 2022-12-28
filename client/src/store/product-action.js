@@ -2,8 +2,8 @@ import axios from "axios";
 import { productActions } from "./product-slice";
 import { uiActions } from "./ui-slice";
 // const baseURL = process.env.REACT_APP_API_BASE_URL;
-const baseURL = "https://pragyarosystem.onrender.com/api/";
-// const baseURL = "http://localhost:4000/api/";
+// const baseURL = "https://pragyarosystem.onrender.com/api/";
+const baseURL = "http://localhost:4000/api/";
 
 export const getAllProducts = (
   filterQuery = {},
@@ -203,6 +203,36 @@ export const getSearchSuggestions = (searchWord = "") => {
       }
     } finally {
       dispatch(uiActions.searchLoader(false));
+    }
+  };
+};
+
+export const saveServiceRequest = (data) => {
+  return async (dispatch) => {
+    dispatch(uiActions.toggleLoader());
+    const sendData = async () => {
+      const response = await axios.post(`${baseURL}`, data);
+      if (response.status === "failure") {
+        throw new Error(response.data.message);
+      }
+      return response;
+    };
+    try {
+      await sendData();
+      dispatch(productActions.updateInfoModalStatus(true));
+    } catch (error) {
+      console.log(error);
+      if (error.response) {
+        dispatch(
+          uiActions.showNotification({
+            status: "error",
+            title: "error",
+            message: error.response.data,
+          })
+        );
+      }
+    } finally {
+      dispatch(uiActions.toggleLoader());
     }
   };
 };

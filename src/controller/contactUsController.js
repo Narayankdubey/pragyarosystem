@@ -98,7 +98,7 @@ const sendEmails = async (req, res) => {
       for(let i = 0; i<emails.length;i++){
         if (validate("email",emails[i])) {
           try{
-            result = await sendMail(emails[i], subject, text)
+            const result = await sendMail(emails[i], subject, text)
             emailStatus.push({email:emails[i], status:result})
             socketInstance.emit("sendEmail", {value:i+1,length:emails.length})
           }catch(e){
