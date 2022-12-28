@@ -1,74 +1,29 @@
 import React, { useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { Paper, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Paper,
+  TextField,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 
-import { getAllServiceRequests } from "../../../store/admin-action";
+import "./style.css";
 
-const columns = [
-  //   { field: "id", headerName: "ID", width: 70 },
-  { field: "name", headerName: "Name", width: 250 },
-  //   { field: "lastName", headerName: "Last name", width: 130 },
-  {
-    field: "mobile",
-    headerName: "Mobile No.",
-    type: "string",
-    width: 150,
-  },
-  {
-    field: "email",
-    headerName: "Email",
-    type: "string",
-    width: 150,
-  },
-  {
-    field: "address",
-    headerName: "Address",
-    type: "string",
-    width: 150,
-  },
-  {
-    field: "productName",
-    headerName: "Product Name",
-    type: "string",
-    width: 150,
-  },
-  {
-    field: "issue",
-    headerName: "Issue",
-    type: "string",
-    width: 150,
-  },
-  {
-    field: "timeFromNow",
-    headerName: "Time",
-    width: 150,
-  },
-  //   {
-  //     field: "fullName",
-  //     headerName: "Full name",
-  //     description: "This column has a value getter and is not sortable.",
-  //     sortable: false,
-  //     width: 160,
-  //     valueGetter: (params) =>
-  //       `${params.getValue(params.id, "firstName") || ""} ${
-  //         params.getValue(params.id, "lastName") || ""
-  //       }`,
-  //   },
-];
+import {
+  getAllServiceRequests,
+  updateServiceRequest,
+} from "../../../store/admin-action";
 
 export default function ServiceRequest() {
   const dispatch = useDispatch();
 
-  const { serviceRequestData,serviceRequestLoader } = useSelector((state) => state.admin);
-
-  useEffect(() => {
-    dispatch(getAllServiceRequests());
-    timeChange();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { serviceRequestData, serviceRequestLoader } = useSelector(
+    (state) => state.admin
+  );
 
   const timeChange = () => {
     return serviceRequestData.map((d) => ({
@@ -76,11 +31,140 @@ export default function ServiceRequest() {
       timeFromNow: moment(d.time).fromNow(),
     }));
   };
+
+  const refreshData = () => {
+    setTimeout(() => {
+      dispatch(getAllServiceRequests());
+      timeChange();
+    }, 600);
+  };
+
+  const columns = [
+    {
+      field: "name",
+      headerName: "Name",
+      width: 150,
+      renderCell: (params) => (
+        <Tooltip title={params.row?.name}>
+          <Typography variant="body2">{params.row?.name}</Typography>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "mobile",
+      headerName: "Mobile No.",
+      type: "string",
+      width: 150,
+    },
+    {
+      field: "email",
+      headerName: "Email",
+      type: "string",
+      width: 200,
+      renderCell: (params) => (
+        <Tooltip title={params.row?.email}>
+          <Typography variant="body2">{params.row?.email}</Typography>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "address",
+      headerName: "Address",
+      type: "string",
+      width: 350,
+      renderCell: (params) => (
+        <Tooltip title={params.row?.address}>
+          <Typography variant="body2">{params.row?.address}</Typography>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "productName",
+      headerName: "Product Name",
+      type: "string",
+      width: 150,
+      renderCell: (params) => (
+        <Tooltip title={params.row?.productName}>
+          <Typography variant="body2">{params.row?.productName}</Typography>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "issue",
+      headerName: "Issue",
+      type: "string",
+      width: 200,
+      renderCell: (params) => (
+        <Tooltip title={params.row?.issue}>
+          <Typography variant="body2">{params.row?.issue}</Typography>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "timeFromNow",
+      headerName: "Time",
+      width: 150,
+    },
+    {
+      field: "adminFeedback",
+      headerName: "Admin Feedback",
+      width: 150,
+      renderCell: (params) => (
+        <Tooltip title={params.row?.adminFeedback}>
+          <Typography variant="body2">{params.row?.adminFeedback}</Typography>
+        </Tooltip>
+      ),
+    },
+    {
+      field: "action",
+      headerName: "Action",
+      width: 300,
+      renderCell: (params) => {
+        const onSubmitHandler = (e) => {
+          e.preventDefault();
+          const value = e.target[0]?.value;
+          if (value.length > 0) {
+            const data = params.row;
+            data.adminFeedback = e.target[0].value;
+            dispatch(updateServiceRequest(data));
+            e.target[0].value = "";
+            refreshData();
+          }
+        };
+        return (
+          <Box
+            component={"form"}
+            onSubmit={onSubmitHandler}
+            display="flex"
+            justifyContent={"space-between"}
+            alignItems={"center"}
+            gap="5px"
+          >
+            <TextField
+              name="adminFeedback"
+              label="Admin Feedback"
+              placeholder="Enter your feedback"
+              size="small"
+            />
+            <Button type="submit" variant="contained">
+              Submit
+            </Button>
+          </Box>
+        );
+      },
+    },
+  ];
+
+  useEffect(() => {
+    dispatch(getAllServiceRequests());
+    timeChange();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div>
       <Paper
         className="admin-header"
-        // elevation={3}
         style={{
           padding: "5px",
           margin: "8px auto",
@@ -88,8 +172,6 @@ export default function ServiceRequest() {
           display: "flex",
           justifyContent: "space-between",
           color: "black",
-          //   borderBottom: "1px solid black",
-          //   borderRadius: "10px",
         }}
       >
         <Typography variant="h5" component="h5">
@@ -104,12 +186,6 @@ export default function ServiceRequest() {
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5]}
-          // checkboxSelection
-          // initialState={{
-          //   sorting: {
-          //     sortModel: [{ field: "timeFromNow", sort: "desc" }],
-          //   },
-          // }}
         />
       </div>
     </div>

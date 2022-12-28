@@ -289,6 +289,39 @@ export const getAllServiceRequests = () => {
   };
 };
 
+export const updateServiceRequest = (data) => {
+  return async (dispatch) => {
+    dispatch(adminActions.updateServiceRequestLoader(true))
+    const getData = async () => {
+      const response = await axios.patch(`${baseURL}service/${data?._id}`, data, {
+        headers: authHeader(),
+      });
+      if (response.status === "failure") {
+        throw new Error(response.data.message);
+      }
+      return response;
+    };
+    try {
+      const data = await getData();
+      // dispatch(adminActions.updateServiceRequestList(data.data));
+    } catch (error) {
+      console.log(error);
+      if (error.response) {
+        // Request made and server responded
+        dispatch(
+          uiActions.showNotification({
+            status: "error",
+            title: "error",
+            message: error.response.data,
+          })
+        );
+      }
+    } finally {
+      dispatch(adminActions.updateServiceRequestLoader(false))
+    }
+  };
+};
+
 export const deleteProduct = (id) => {
   return async (dispatch) => {
     dispatch(uiActions.toggleLoader());
