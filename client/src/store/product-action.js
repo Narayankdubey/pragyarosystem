@@ -211,7 +211,7 @@ export const saveServiceRequest = (data) => {
   return async (dispatch) => {
     dispatch(uiActions.toggleLoader());
     const sendData = async () => {
-      const response = await axios.post(`${baseURL}`, data);
+      const response = await axios.post(`${baseURL}service`, data);
       if (response.status === "failure") {
         throw new Error(response.data.message);
       }
