@@ -1,9 +1,9 @@
 import axios from "axios";
 import { productActions } from "./product-slice";
 import { uiActions } from "./ui-slice";
-// const baseURL = process.env.REACT_APP_API_BASE_URL;
+const baseURL = process.env.REACT_APP_API_BASE_URL;
 // const baseURL = "https://pragyarosystem.onrender.com/api/";
-const baseURL = "http://localhost:4000/api/";
+// const baseURL = "http://localhost:4000/api/";
 
 export const getAllProducts = (
   filterQuery = {},

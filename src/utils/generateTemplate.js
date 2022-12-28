@@ -1,4 +1,4 @@
-const baseUrl = "https://pragyarosystem.onrender.com/src/util/images/"
+const baseUrl = "https://pragyarosystem.onrender.com/src/utils/images/"
 
 const serviceRequestTemplate = (data)=>{
     const template = `

@@ -6,8 +6,8 @@ import { productActions } from "./product-slice";
 import authHeader from "../authHeader";
 import { uiActions } from "./ui-slice";
 
-const baseURL = "http://localhost:4000/api/";
-// const baseURL = process.env.REACT_APP_API_BASE_URL;
+// const baseURL = "http://localhost:4000/api/";
+const baseURL = process.env.REACT_APP_API_BASE_URL;
 // const baseURL = "https://pragyarosystem.onrender.com/api/";
 
 export const adminLogin = (data) => {
