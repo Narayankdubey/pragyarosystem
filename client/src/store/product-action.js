@@ -102,7 +102,6 @@ export const getProduct = (id) => {
     } catch (error) {
       console.log(error);
       if (error.response) {
-        // Request made and server responded
         dispatch(
           uiActions.showNotification({
             status: "error",

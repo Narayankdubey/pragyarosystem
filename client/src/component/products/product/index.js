@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import {
   Grid,
   Paper,
@@ -102,7 +102,8 @@ const Products = ({ filterData }) => {
       ? rawData.results.filter((data) => data.product_name.includes(filter))
       : [];
 
-  const buyNowHandler = () => {
+  const buyNowHandler = (e) => {
+    // e.stopPropagation();
     setBuyNowModalOpen(true);
   };
 
@@ -141,32 +142,27 @@ const Products = ({ filterData }) => {
         setDeleteModalOpen={setDeleteModalOpen}
         productId={deleteId}
       />
-      <div style={{ minHeight: "calc(100% - 256px)" }}>
+      <div style={{ minHeight: "calc(100% - 256px)", paddingTop:"20px" }}>
         <Grid
           container
           spacing={2}
           p={2}
-          sx={{
-            justifyContent: "center",
-            // alignItems: "center",
-          }}
+          gap={4}
+          justifyContent={"center"}
         >
           {data.map((data, index) => {
             return (
+              <Link to={"/products/"+data._id} className="products-link">
               <Paper
                 key={index}
                 sx={{
+                  padding: "10px",
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
-                  // alignItems: "center",
-                  padding: "10px",
-                  margin: "20px",
-                  // width: "300px",
-                  // maxHeight: "250px",
                 }}
               >
-                {loggedIn && (
+                {/* {loggedIn && (
                   <div
                     style={{
                       width: "100%",
@@ -180,14 +176,15 @@ const Products = ({ filterData }) => {
                     <IconButton
                       aria-label="delete"
                       color="error"
-                      onClick={() => {
+                      onClick={(e) => {
+                        // e.stopPropagation();
                         deleteHandle(data._id);
                       }}
                     >
                       <DeleteIcon />
                     </IconButton>
                   </div>
-                )}
+                )} */}
                 <div className="product-inside-container">
                   <div className="img-product-container">
                     <img
@@ -223,16 +220,17 @@ const Products = ({ filterData }) => {
                     >
                       MRP ₹{data.price}/-
                     </Typography>
-                    <Button
+                    {/* <Button
                       variant="contained"
                       onClick={buyNowHandler}
                       style={{ marginTop: "10px", width: "100%" }}
                     >
                       Buy Now
-                    </Button>
+                    </Button> */}
                   </div>
                 </div>
               </Paper>
+              </Link>
             );
           })}
 

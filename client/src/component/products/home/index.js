@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Typography, Grid, Card } from "@mui/material";
+import { Button, Typography, Grid, Card, Paper } from "@mui/material";
 import CallIcon from "@mui/icons-material/Call";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 // import Carousel from "react-material-ui-carousel";
@@ -295,7 +295,7 @@ const Home = () => {
       <ContactUsForm />
       <div className="feed-view-container">
         {feedback.map((data, index) => (
-          <Card className="feed-container">
+          <Paper className="feed-container" elevation={18}>
             <q>{data.feedback}</q>
             <Typography variant="body2" mt={2} align="right">
               {data.name}
@@ -303,7 +303,7 @@ const Home = () => {
             <Typography variant="caption" display="block" mt={0} align="right">
               {data.address}
             </Typography>
-          </Card>
+          </Paper>
         ))}
       </div>
     </>

@@ -8,6 +8,7 @@ import "./App.css";
 // import Home from "./component/products/home";
 import Header from "./component/products/header";
 import Products from "./component/products/product";
+import ProductDetails from "./component/products/productDetails";
 import SearchProduct from "./component/products/searchProduct";
 import Contact from "./component/products/contact";
 import Service from "./component/products/service";
@@ -108,6 +109,7 @@ function App() {
           }
         />
         <Route path="/products" element={<Products />} />
+        <Route path="/products/:id" element={<ProductDetails />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/service" element={<Service />} />
         <Route path="/searchproduct" element={<SearchProduct />} />
@@ -149,7 +151,6 @@ function App() {
           )}
         />
       </Routes>
-
       <Footer />
     </div>
   );

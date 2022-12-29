@@ -34,3 +34,10 @@
   /* width: 150;
   height: 100; */
 }
+
+.products-link{
+  text-decoration: none;
+}
+.products-link:hover{
+  color: blue;
+}

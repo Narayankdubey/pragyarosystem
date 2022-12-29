@@ -21,6 +21,9 @@ th {
   font-weight: 700;
 }
 
+tr{
+  background: #fffefe;
+}
 tr:nth-child(2n) {
   background: #f8f8f8;
 }
