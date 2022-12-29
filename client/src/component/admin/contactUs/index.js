@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
   Button,
@@ -12,15 +11,55 @@ import {
   TableHead,
   Table,
   TextField,
+  Box,
+  LinearProgress,
 } from "@mui/material";
 
 import "../../style/table.css";
-import { getAllContactUs } from "../../../store/admin-action";
+import { getAllContactUs, updateContactUs } from "../../../store/admin-action";
 
 const ContactUs = () => {
   const dispatch = useDispatch();
-  const { contactUsData } = useSelector((state) => state.admin);
-  const navigate = useNavigate();
+  const { contactUsData, contactUsLoader } = useSelector(
+    (state) => state.admin
+  );
+
+  const refreshData = () => {
+    setTimeout(() => {
+      dispatch(getAllContactUs());
+    }, 600);
+  };
+
+  const Action = ({ param }) => {
+    const submitHandler = (e) => {
+      e.preventDefault();
+      const value = e.target[0]?.value;
+      if (value.length > 0) {
+        const data = { ...param, adminFeedback: value };
+        dispatch(updateContactUs(data));
+        e.target[0].value = "";
+        refreshData();
+      }
+    };
+    return (
+      <Box
+        component={"form"}
+        onSubmit={submitHandler}
+        display={"flex"}
+        gap={5}
+        autoComplete="off"
+      >
+        <TextField
+          label="admin feedback"
+          placeholder="Enter admin feedback"
+          size="small"
+        />
+        <Button type="submit" variant="contained">
+          Update
+        </Button>
+      </Box>
+    );
+  };
 
   useEffect(() => {
     dispatch(getAllContactUs());
@@ -30,7 +69,6 @@ const ContactUs = () => {
     <div>
       <Paper
         className="admin-header"
-        // elevation={3}
         style={{
           padding: "5px",
           margin: "8px auto",
@@ -38,20 +76,9 @@ const ContactUs = () => {
           display: "flex",
           justifyContent: "space-between",
           color: "black",
-          //   borderBottom: "1px solid black",
-          //   borderRadius: "10px",
         }}
       >
         <Typography variant="h5">Contact Us</Typography>
-
-        {/* <Button
-          variant="contained"
-          color="success"
-          size="small"
-          onClick={() => navigate("/product/create")}
-        >
-          Create Product
-        </Button> */}
       </Paper>
       <TableContainer component={Paper} className="table-container">
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -78,11 +105,19 @@ const ContactUs = () => {
               <TableCell align="right" sx={{ minWidth: 230 }}>
                 Admin Feedback
               </TableCell>
-              <TableCell align="right" sx={{ minWidth: 230 }}>
-                Input
+              <TableCell align="center" sx={{ minWidth: 350 }}>
+                Action
               </TableCell>
-              <TableCell align="right">Update</TableCell>
             </TableRow>
+            {contactUsLoader && (
+              <TableRow>
+                <TableCell colSpan={8} style={{ padding: 0 }}>
+                  <Box width={"100%"}>
+                    <LinearProgress />
+                  </Box>
+                </TableCell>
+              </TableRow>
+            )}
           </TableHead>
           <TableBody>
             {contactUsData.map((data, index) => (
@@ -102,10 +137,7 @@ const ContactUs = () => {
                 <TableCell align="right">{data.feedback}</TableCell>
                 <TableCell align="right">{data.adminFeedback}</TableCell>
                 <TableCell align="right">
-                  <TextField label="admin feedback" multiline size="small" />
-                </TableCell>
-                <TableCell align="center">
-                  <Button variant="contained">Update</Button>
+                  <Action param={data} />
                 </TableCell>
               </TableRow>
             ))}

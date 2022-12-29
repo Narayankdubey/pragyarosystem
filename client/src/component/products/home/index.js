@@ -1,8 +1,7 @@
 import React from "react";
-import { Button, Typography, Grid, Card, Paper } from "@mui/material";
+import { Button, Typography, Paper } from "@mui/material";
 import CallIcon from "@mui/icons-material/Call";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
-// import Carousel from "react-material-ui-carousel";
 import { Link } from "react-router-dom";
 import Carousel from "react-bootstrap/Carousel";
 
@@ -62,10 +61,6 @@ const feedback = [
 
 const Home = () => {
   const carouselItem = [
-    // {
-    //   name: "newYearOffer",
-    //   link: "https://www.kent.co.in/images/banner/banner-bg.jpg",
-    // },
     { name: "newYearOffer", link: offer },
     { name: "newYearOffer", link: navvarsh },
   ];
@@ -81,7 +76,6 @@ const Home = () => {
           minHeight: "calc(100vh - 128px)",
           display: "flex",
           flexDirection: "column",
-          // justifyContent: "center",
           alignItems: "center",
           background: "#f8f9fa",
         }}
@@ -125,6 +119,7 @@ const Home = () => {
             src="https://www.kent.co.in/images/banner/mobile-banner-product.webp"
             width="80%"
             loading="lazy"
+            alt="banner"
           />
           <p>Best Place to Buy</p>
           <div className="contact-banner">
@@ -141,23 +136,11 @@ const Home = () => {
               variant="contained"
               color="success"
               startIcon={<WhatsAppIcon />}
-              // style={{ marginTop: "5px" }}
             >
               Whatsapp
             </Button>
           </div>
         </div>
-
-        {/* <Carousel>
-        {carouselItem.map((item, index) => {
-          return (
-            <div>
-              <h1>hello</h1>
-              <img src={item.link} key={index} />
-            </div>
-          );
-        })}
-      </Carousel> */}
         <div className="product-intro">
           <h2>RO Water Purifiers</h2>
           <div className="product-intro-left">
@@ -168,7 +151,6 @@ const Home = () => {
               RO+UV+UF, Pragya RO System ensures 100% pure & healthier drinking
               water.
             </p>
-            {/* <button className="view-more">see more</button> */}
             <Link to="/products">
               <Button variant="contained">View More</Button>
             </Link>
@@ -192,7 +174,6 @@ const Home = () => {
               membrane to disinfect water, making it free from deadly bacteria,
               viruses and cysts.
             </p>
-            {/* <button className="view-more">see more</button> */}
             <Link to="/products">
               <Button variant="contained">View More</Button>
             </Link>
@@ -216,7 +197,6 @@ const Home = () => {
               water pure. This eradicates the rising problem of contaminated
               water in rural areas.
             </p>
-            {/* <button className="view-more">see more</button> */}
             <Link to="/products">
               <Button variant="contained">View More</Button>
             </Link>
@@ -242,7 +222,6 @@ const Home = () => {
               not call any other number or dealers directly. Service Request can
               also be made here.
             </p>
-            {/* <button className="view-more">see more</button> */}
             <Link to="/service">
               <Button variant="contained">Request Service</Button>
             </Link>
@@ -265,7 +244,6 @@ const Home = () => {
             sx={{
               fontWeight: "bold",
               borderBottom: "2px solid black",
-              // fontSize: "1.5em",
             }}
           >
             Aquaguard
@@ -292,13 +270,14 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <ContactUsForm />
       <div className="feed-view-container">
         {feedback.map((data, index) => (
-          <Paper className="feed-container" elevation={18}>
-            <q>{data.feedback}</q>
+          <Paper className="feed-container" elevation={18} key={index}>
+            <q>
+              <i>{data.feedback}</i>
+            </q>
             <Typography variant="body2" mt={2} align="right">
-              {data.name}
+              <strong>{data.name}</strong>
             </Typography>
             <Typography variant="caption" display="block" mt={0} align="right">
               {data.address}
@@ -306,6 +285,7 @@ const Home = () => {
           </Paper>
         ))}
       </div>
+      <ContactUsForm />
     </>
   );
 };

@@ -5,11 +5,14 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
+import AdminTableSkeleton from "../../UI/skeleton/AdminTableSkeleton";
+
 const Visitor = lazy(() => import("../visitor"));
 const AdminProducts = lazy(() => import("../products"));
 const ContactUs = lazy(() => import("../contactUs"));
 const Emails = lazy(() => import("../emails"));
 const ServiceRequest = lazy(() => import("../service"));
+
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -62,39 +65,29 @@ export default function AdminHome() {
           aria-label="basic tabs example"
         >
           <Tab label="Visitors" {...a11yProps(0)} />
-          <Tab label="Buy Now" {...a11yProps(1)} />
-          <Tab label="Contact Us" {...a11yProps(2)} />
-          <Tab label="Service Requests" {...a11yProps(3)} />
-          <Tab label="Products" {...a11yProps(4)} />
-          <Tab label="Emails" {...a11yProps(5)} />
+          <Tab label="Contact Us" {...a11yProps(1)} />
+          <Tab label="Service Requests" {...a11yProps(2)} />
+          <Tab label="Emails" {...a11yProps(3)} />
         </Tabs>
       </Box>
 
       <TabPanel value={value} index={0}>
-        <Suspense fallback={<></>}>
+        <Suspense fallback={<AdminTableSkeleton/>}>
           <Visitor />
         </Suspense>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Buy Now is Coming Soon...
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        <Suspense fallback={<></>}>
+        <Suspense fallback={<AdminTableSkeleton/>}>
           <ContactUs />
         </Suspense>
       </TabPanel>
-      <TabPanel value={value} index={3}>
-        <Suspense fallback={<></>}>
+      <TabPanel value={value} index={2}>
+        <Suspense fallback={<AdminTableSkeleton/>}>
           <ServiceRequest />
         </Suspense>
       </TabPanel>
-      <TabPanel value={value} index={4}>
-        <Suspense fallback={<></>}>
-          <AdminProducts />
-        </Suspense>
-      </TabPanel>
-      <TabPanel value={value} index={5}>
-        <Suspense fallback={<></>}>
+      <TabPanel value={value} index={3}>
+        <Suspense fallback={<AdminTableSkeleton/>}>
           <Emails />
         </Suspense>
       </TabPanel>

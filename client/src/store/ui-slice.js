@@ -5,6 +5,7 @@ const initialState = {
   notification: null,
   loading: false,
   skeleton: false,
+  productDetailsSkeleton:true,
   filterElementLoader: false,
   searchLoader: false,
   emailSendLoader: false
@@ -33,6 +34,9 @@ const uiSlice = createSlice({
     },
     toggleSkeleton(state, action) {
       state.skeleton = action.payload;
+    },
+    toggleProductDetailsSkeleton(state, action) {
+      state.productDetailsSkeleton = action.payload;
     },
     filterElementLoader(state, action) {
       state.filterElementLoader = action.payload;

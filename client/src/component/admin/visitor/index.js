@@ -7,9 +7,7 @@ import moment from "moment";
 import { getAllVisitors } from "../../../store/admin-action";
 
 const columns = [
-  //   { field: "id", headerName: "ID", width: 70 },
   { field: "name", headerName: "Name", width: 250 },
-  //   { field: "lastName", headerName: "Last name", width: 130 },
   {
     field: "mobile",
     headerName: "Mobile No.",
@@ -21,23 +19,12 @@ const columns = [
     headerName: "Time",
     width: 150,
   },
-  //   {
-  //     field: "fullName",
-  //     headerName: "Full name",
-  //     description: "This column has a value getter and is not sortable.",
-  //     sortable: false,
-  //     width: 160,
-  //     valueGetter: (params) =>
-  //       `${params.getValue(params.id, "firstName") || ""} ${
-  //         params.getValue(params.id, "lastName") || ""
-  //       }`,
-  //   },
 ];
 
 export default function Visitor() {
   const dispatch = useDispatch();
 
-  const { visitors } = useSelector((state) => state.admin);
+  const { visitors, visitorsLoader } = useSelector((state) => state.admin);
 
   useEffect(() => {
     dispatch(getAllVisitors());
@@ -56,7 +43,6 @@ export default function Visitor() {
     <div>
       <Paper
         className="admin-header"
-        // elevation={3}
         style={{
           padding: "5px",
           margin: "8px auto",
@@ -64,8 +50,6 @@ export default function Visitor() {
           display: "flex",
           justifyContent: "space-between",
           color: "black",
-          //   borderBottom: "1px solid black",
-          //   borderRadius: "10px",
         }}
       >
         <Typography variant="h5" component="h5">
@@ -74,17 +58,12 @@ export default function Visitor() {
       </Paper>
       <div style={{ height: 400, width: "100%", margin: "5px auto" }}>
         <DataGrid
+        loading={visitorsLoader}
           getRowId={(r) => r._id}
           rows={timeChange()}
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5]}
-          // checkboxSelection
-          // initialState={{
-          //   sorting: {
-          //     sortModel: [{ field: "timeFromNow", sort: "desc" }],
-          //   },
-          // }}
         />
       </div>
     </div>

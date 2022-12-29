@@ -88,7 +88,7 @@ export const saveContactUs = (data) => {
 
 export const getProduct = (id) => {
   return async (dispatch) => {
-    dispatch(uiActions.toggleLoader());
+    dispatch(uiActions.toggleProductDetailsSkeleton(true));
     const getData = async () => {
       const response = await axios.get(`${baseURL}products/${id}`);
       if (response.status === "failure") {
@@ -111,7 +111,7 @@ export const getProduct = (id) => {
         );
       }
     } finally {
-      dispatch(uiActions.toggleLoader());
+      dispatch(uiActions.toggleProductDetailsSkeleton(false));
     }
   };
 };

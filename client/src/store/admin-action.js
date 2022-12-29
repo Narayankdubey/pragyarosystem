@@ -160,7 +160,7 @@ export const saveVisitor = (data) => {
 
 export const getAllVisitors = () => {
   return async (dispatch) => {
-    // dispatch(uiActions.toggleLoader());
+    dispatch(adminActions.visitorLoaderStatus(true));
     const getData = async () => {
       const response = await axios.get(`${baseURL}visitors`, {
         headers: authHeader(),
@@ -176,7 +176,6 @@ export const getAllVisitors = () => {
     } catch (error) {
       console.log(error);
       if (error.response) {
-        // Request made and server responded
         dispatch(
           uiActions.showNotification({
             status: "error",
@@ -186,14 +185,14 @@ export const getAllVisitors = () => {
         );
       }
     } finally {
-      // dispatch(uiActions.toggleLoader());
+      dispatch(adminActions.visitorLoaderStatus(false));
     }
   };
 };
 
 export const getAllContactUs = () => {
   return async (dispatch) => {
-    // dispatch(uiActions.toggleLoader());
+    dispatch(adminActions.updateContactUsLoader(true));
     const getData = async () => {
       const response = await axios.get(`${baseURL}api-contactus`, {
         headers: authHeader(),
@@ -209,7 +208,6 @@ export const getAllContactUs = () => {
     } catch (error) {
       console.log(error);
       if (error.response) {
-        // Request made and server responded
         dispatch(
           uiActions.showNotification({
             status: "error",
@@ -219,26 +217,29 @@ export const getAllContactUs = () => {
         );
       }
     } finally {
-      // dispatch(uiActions.toggleLoader());
+      dispatch(adminActions.updateContactUsLoader(false));
     }
   };
 };
 
-export const updateContactUs = (id, data) => {
+export const updateContactUs = (data) => {
   return async (dispatch) => {
-    // dispatch(uiActions.toggleLoader());
+    dispatch(adminActions.updateContactUsLoader(true));
     const getData = async () => {
-      const response = await axios.get(`${baseURL}api-contactus/${id}`, data, {
-        headers: authHeader(),
-      });
+      const response = await axios.patch(
+        `${baseURL}api-contactus/${data._id}`,
+        data,
+        {
+          headers: authHeader(),
+        }
+      );
       if (response.status === "failure") {
         throw new Error(response.data.message);
       }
       return response;
     };
     try {
-      const data = await getData();
-      dispatch(adminActions.updateContactUsList(data.data));
+      await getData();
     } catch (error) {
       console.log(error);
       if (error.response) {
@@ -252,14 +253,14 @@ export const updateContactUs = (id, data) => {
         );
       }
     } finally {
-      // dispatch(uiActions.toggleLoader());
+      dispatch(adminActions.updateContactUsLoader(false));
     }
   };
 };
 
 export const getAllServiceRequests = () => {
   return async (dispatch) => {
-    dispatch(adminActions.updateServiceRequestLoader(true))
+    dispatch(adminActions.updateServiceRequestLoader(true));
     const getData = async () => {
       const response = await axios.get(`${baseURL}service`, {
         headers: authHeader(),
@@ -284,18 +285,22 @@ export const getAllServiceRequests = () => {
         );
       }
     } finally {
-      dispatch(adminActions.updateServiceRequestLoader(false))
+      dispatch(adminActions.updateServiceRequestLoader(false));
     }
   };
 };
 
 export const updateServiceRequest = (data) => {
   return async (dispatch) => {
-    dispatch(adminActions.updateServiceRequestLoader(true))
+    dispatch(adminActions.updateServiceRequestLoader(true));
     const getData = async () => {
-      const response = await axios.patch(`${baseURL}service/${data?._id}`, data, {
-        headers: authHeader(),
-      });
+      const response = await axios.patch(
+        `${baseURL}service/${data?._id}`,
+        data,
+        {
+          headers: authHeader(),
+        }
+      );
       if (response.status === "failure") {
         throw new Error(response.data.message);
       }
@@ -317,7 +322,7 @@ export const updateServiceRequest = (data) => {
         );
       }
     } finally {
-      dispatch(adminActions.updateServiceRequestLoader(false))
+      dispatch(adminActions.updateServiceRequestLoader(false));
     }
   };
 };
@@ -367,7 +372,7 @@ export const sendAllEmail = (data) => {
   return async (dispatch) => {
     dispatch(uiActions.emailSendLoader(true));
     const sendMail = async () => {
-      const response = await axios.post(`${baseURL}sendallemails`,data, {
+      const response = await axios.post(`${baseURL}sendallemails`, data, {
         headers: authHeader(),
       });
       if (response.status === "failure") {
@@ -403,4 +408,3 @@ export const sendAllEmail = (data) => {
     }
   };
 };
-

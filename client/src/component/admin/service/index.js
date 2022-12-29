@@ -125,7 +125,7 @@ export default function ServiceRequest() {
           const value = e.target[0]?.value;
           if (value.length > 0) {
             const data = params.row;
-            data.adminFeedback = e.target[0].value;
+            data.adminFeedback = value;
             dispatch(updateServiceRequest(data));
             e.target[0].value = "";
             refreshData();

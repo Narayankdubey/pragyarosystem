@@ -6,7 +6,9 @@ const initialState = {
   errMsg: "",
   visitorModal: false,
   visitors: [],
+  visitorsLoader:false,
   contactUsData: [],
+  contactUsLoader:false,
   serviceRequestData: [],
   serviceRequestLoader:false,
   sentEmailData : [],
@@ -32,11 +34,17 @@ const adminSlice = createSlice({
     visitorStatus: (state, action) => {
       state.visitorModal = action.payload;
     },
+    visitorLoaderStatus: (state, action) => {
+      state.visitorsLoader = action.payload;
+    },
     updateVisitorsList: (state, action) => {
       state.visitors = action.payload;
     },
     updateContactUsList: (state, action) => {
       state.contactUsData = action.payload;
+    },
+    updateContactUsLoader: (state, action) => {
+      state.contactUsLoader = action.payload;
     },
     updateServiceRequestList: (state, action) => {
       state.serviceRequestData = action.payload;

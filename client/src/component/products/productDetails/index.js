@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -25,59 +25,64 @@ import CoffeeMakerIcon from '@mui/icons-material/CoffeeMaker';
 
 import "./style.css";
 import "../../style/table.css"
-
-const rows = [
-  {
-    name: "Product Name",
-    key: "product_name",
-    icon:<CoffeeMakerIcon/>
-  },
-  {
-    name: "Price",
-    key: "price",
-    icon:<CurrencyRupeeIcon/>,
-  },
-  {
-    name: "Capacity",
-    key: "capacity",
-    icon:<WaterIcon />,
-  },
-  {
-    name: "Color",
-    key: "color",
-    icon:<ColorLensIcon/>
-  },
-  {
-    name: "Voltage",
-    key: "voltage",
-    icon:<BoltIcon />,
-  },
-  {
-    name: "Booster Pump",
-    key: "booster_pump",
-    icon:<SettingsIcon /> 
-  },
-  {
-    name: "Purifying Technology",
-    key: "purifying_technology",
-    icon:<EngineeringIcon/>
-  },
-];
+import ProductDetailSkeleton from "../../UI/skeleton/productDetailSkeleton";
 
 const ProductDetails = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const product = useSelector((state) => state.product.product);
+  const { productDetailsSkeleton } = useSelector((state) => state.ui);
+
+  const rows = useMemo(()=>{
+    return [
+      {
+        name: "Product Name",
+        value: product?.product_name || "",
+        icon:<CoffeeMakerIcon/>
+      },
+      {
+        name: "Price",
+        value: `₹ ${product?.price || "N/A"} /-`,
+        icon:<CurrencyRupeeIcon/>,
+      },
+      {
+        name: "Capacity",
+        value: `${product?.capacity || "N/A"} L`,
+        icon:<WaterIcon />,
+      },
+      {
+        name: "Color",
+        value: product?.color || "N/A",
+        icon:<ColorLensIcon/>
+      },
+      {
+        name: "Voltage",
+        value: `${product?.voltage || "N/A"} VDC Volt`,
+        icon:<BoltIcon />,
+      },
+      {
+        name: "Booster Pump",
+        value: product?.booster_pump || "N/A",
+        icon:<SettingsIcon /> 
+      },
+      {
+        name: "Purifying Technology",
+        value: product?.purifying_technology || "N/A",
+        icon:<EngineeringIcon/>
+      },
+    ];
+  },[product])
 
   useEffect(() => {
     if (id) {
       dispatch(getProduct(id));
     }
   }, [dispatch, id]);
-  console.log(product, "product");
+
   return (
     <div className="product-detail-container"> 
-    <Paper component={Grid} elevation={3} container spacing={1}>
+   {productDetailsSkeleton ? <ProductDetailSkeleton /> :
+    (<Paper component={Grid} elevation={3} container spacing={1}>
       <Box component={Grid} item xs={12} sm={12} md={6} sx={{overflow:"hidden"}}>
         <img src={product?.img} alt="Product" className="product-detail-img" />
       </Box>
@@ -89,7 +94,7 @@ const ProductDetails = () => {
             <TableBody>
               {rows.map((row) => (
                 <TableRow
-                  key={row.key}
+                  key={row.name}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell
@@ -100,7 +105,7 @@ const ProductDetails = () => {
                    {row?.icon}{" "} {row.name}
                   </TableCell>
                   <TableCell component="th" scope="row" sx={{paddingLeft:0}}>
-                    {product[row.key]}
+                    {row.value}
                   </TableCell>
                 </TableRow>
               ))}
@@ -108,7 +113,7 @@ const ProductDetails = () => {
           </Table>
         </TableContainer>
       </Box>
-    </Paper>
+    </Paper>)}
     </div>
   );
 };

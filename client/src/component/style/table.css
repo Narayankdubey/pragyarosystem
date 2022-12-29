@@ -1,7 +1,8 @@
 .table-container {
+  position: relative;
 }
 .MuiTableContainer-root {
-  height: calc(100vh - 218px);
+  height: calc(100vh - 240px);
 }
 .MuiTableHead-root {
   background-color: #9e2d2dde;
