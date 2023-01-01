@@ -56,6 +56,20 @@ const updateContactUs = async (req, res) => {
         new: true,
       }
     );
+    const data = req.body;
+    if (
+      data.email &&
+      data.email.length > 0 &&
+      validate("email", data) &&
+      data?.adminFeedback.length > 0
+    ) {
+      sendMail(
+        data.email,
+        "Pragya RO System :: Contact Us Update",
+        data?.adminFeedback
+      );
+    }
+
     res.send(updateContactUs);
   } catch (e) {
     res.status(404).send(e);
@@ -84,33 +98,40 @@ const sendEmails = async (req, res) => {
     const text = req.body.text;
     const socketSessionId = req.body.socketSessionId;
     const contactUsData = await contactUsModal.find({}, { email: 1, _id: 0 });
-    let emails = []
-    contactUsData.forEach((data)=>{
-      if(!emails.includes(data.email) && data.email.length > 4 && data.email.includes("@"))
-        emails.push(data.email.toLowerCase())
-    })
+    let emails = [];
+    contactUsData.forEach((data) => {
+      if (
+        !emails.includes(data.email) &&
+        data.email.length > 4 &&
+        data.email.includes("@")
+      )
+        emails.push(data.email.toLowerCase());
+    });
     let emailStatus = [];
-    const io = req.app.get('io');
-    const sockets = req.app.get('sockets');
+    const io = req.app.get("io");
+    const sockets = req.app.get("sockets");
     const thisSocketId = sockets[socketSessionId];
     const socketInstance = io.to(thisSocketId);
 
-      for(let i = 0; i<emails.length;i++){
-        if (validate("email",emails[i])) {
-          try{
-            const result = await sendMail(emails[i], subject, text)
-            emailStatus.push({email:emails[i], status:result})
-            socketInstance.emit("sendEmail", {value:i+1,length:emails.length})
-          }catch(e){
-            emailStatus.push({email:emails[i], status:"Failed"})
-          }
+    for (let i = 0; i < emails.length; i++) {
+      if (validate("email", emails[i])) {
+        try {
+          const result = await sendMail(emails[i], subject, text);
+          emailStatus.push({ email: emails[i], status: result });
+          socketInstance.emit("sendEmail", {
+            value: i + 1,
+            length: emails.length,
+          });
+        } catch (e) {
+          emailStatus.push({ email: emails[i], status: "Failed" });
         }
       }
+    }
     res.send(emailStatus);
   } catch (e) {
     res.send(e);
   }
-}
+};
 
 // EXPORT //
 module.exports = {

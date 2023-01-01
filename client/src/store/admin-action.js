@@ -307,7 +307,7 @@ export const updateServiceRequest = (data) => {
       return response;
     };
     try {
-      const data = await getData();
+      await getData();
       // dispatch(adminActions.updateServiceRequestList(data.data));
     } catch (error) {
       console.log(error);

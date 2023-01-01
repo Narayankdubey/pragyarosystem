@@ -5,7 +5,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Cookies from "js-cookie";
 
 import "./App.css";
-// import Home from "./component/products/home";
 import Header from "./component/products/header";
 import Products from "./component/products/product";
 import ProductDetails from "./component/products/productDetails";
@@ -20,7 +19,6 @@ import CreateProduct from "./component/admin/createProducts";
 import Notification from "./component/UI/Notification";
 import PageLoader from "./component/UI/PageLoader";
 import HomeSkeleton from "./component/UI/skeleton/HomeSkeleton";
-import HeaderSkeleton from "./component/UI/skeleton/HeaderSkeleton";
 
 import VisitorModal from "./component/products/visitorModal";
 import InfoModal from "./component/products/infoModal";
@@ -30,15 +28,6 @@ import { adminActions } from "../src/store/admin-slice";
 import authHeader from "./authHeader";
 
 const Home = lazy(() => import("./component/products/home"));
-// const Header = lazy(() => import("./component/products/header"));
-// const Products = lazy(() => import("./component/products/product"));
-// const SearchProduct = lazy(() => import("./component/products/searchProduct"));
-// const Contact = lazy(() => import("./component/products/contact"));
-// const Service = lazy(() => import("./component/products/service"));
-// const Footer = lazy(() => import("./component/products/footer"));
-// const Login = lazy(() => import("./component/admin/login"));
-// const AdminHome = lazy(() => import("./component/admin/home"));
-// const CreateProduct = lazy(() => import("./component/admin/createProducts"));
 
 function App() {
   const { loggedIn } = useSelector((state) => state.admin);

@@ -15,10 +15,10 @@ const validate = (type, value) => {
   const nameReg = /^[a-zA-Z]([a-z A-Z]){2,}$/;
   const mobileReg = /^[6789]([0-9]){9}/;
   const emailReg = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-
+  
   switch (type) {
     case "email":
-      return value.email.trim().length > 0 && emailReg.test(value?.email);
+      return value.trim().length > 0 && emailReg.test(value);
 
     default:
       return;

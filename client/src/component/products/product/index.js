@@ -56,6 +56,7 @@ const Products = ({ filterData }) => {
     } else {
     }
     return () => dispatch(clearProduct());
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [path, sortData, filterQuery]);
 
   useEffect(() => {
@@ -69,6 +70,7 @@ const Products = ({ filterData }) => {
       dispatch(getAllProducts(filterQuery, page + 1, 5, searchInput, sortData));
       setLoadData(false);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loadData]);
 
   useEffect(() => {
@@ -81,6 +83,7 @@ const Products = ({ filterData }) => {
     }, 300);
 
     return () => clearTimeout(delayDebounceFn);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchInput]);
 
   function handleScroll() {
