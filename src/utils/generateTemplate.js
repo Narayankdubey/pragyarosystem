@@ -55,6 +55,7 @@ const serviceRequestTemplate = (data) => {
 		}
 		.value-table{
 			width: 70%;
+			margin:auto;
 			padding: 5px;
 			max-width: 680px;
 

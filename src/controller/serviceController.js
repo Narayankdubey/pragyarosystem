@@ -17,7 +17,7 @@ const storeService = async (req, res) => {
     const data = req.body;
     const service = new serviceModal(req.body);
     const createService = await service.save();
-    if (data.email && data.email.length > 0 && validate("email", data)) {
+    if (data.email && data.email.length > 0 && validate("email", data.email)) {
       const emailContent = serviceRequestTemplate(req.body);
       sendMail(
         req.body.email,
@@ -74,7 +74,7 @@ const updateService = async (req, res) => {
     if (
       data.email &&
       data.email.length > 0 &&
-      validate("email", data) &&
+      validate("email", data.email) &&
       data?.adminFeedback.length > 0
     ) {
       const emailContent = serviceRequestReplyTemplate(data);
