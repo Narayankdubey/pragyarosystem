@@ -1,4 +1,4 @@
-const baseUrl = "https://pragyarosystem.onrender.com/src/utils/images/";
+const baseUrl = "https://pragyarosystem.onrender.com/images/";
 
 const serviceRequestTemplate = (data) => {
   const template = `
@@ -743,6 +743,7 @@ const serviceRequestReplyTemplate = (data) => {
 		}
 		.value-table{
 			width: 70%;
+			margin:auto;
 			padding: 5px;
 			max-width: 680px;
 

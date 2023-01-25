@@ -34,6 +34,8 @@ app.use("/api", Router);
 
 // if (process.env.NODE_ENV === "production") {
 app.use(express.static("./client/static"));
+app.use("/images",express.static(path.join(__dirname, "/images")));
+
 // const path = require("path");
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "client", "static", "index.html"));
