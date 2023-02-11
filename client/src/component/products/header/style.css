@@ -7,6 +7,12 @@
   animation-duration: 2s;
   animation-iteration-count: infinite;
 }
+.menu-icon {
+  padding: 5px;
+  color: white;
+  border-radius: 5px;
+}
+
 @keyframes top-heading-animation {
   0% {
     letter-spacing: 5px;
@@ -62,6 +68,7 @@
   text-decoration: none;
   display: flex;
   justify-content: space-between;
+  font-weight:bold;
   border-radius: 0px 45px 45px 0px;
   transition: 0.2s;
 }
@@ -70,6 +77,10 @@
 }
 .drawer-nav-menu:focus {
   background-color: rgb(140, 140, 240);
+}
+.drawer-nav-menu:focus-within{
+  -webkit-filter: invert(100%);
+  filter: invert(100%);
 }
 .inactive {
   color: white;

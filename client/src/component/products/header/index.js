@@ -28,6 +28,7 @@ import ContactMailIcon from "@mui/icons-material/ContactMail";
 import CallIcon from "@mui/icons-material/Call";
 import MiscellaneousServicesIcon from "@mui/icons-material/MiscellaneousServices";
 import SearchIcon from "@mui/icons-material/Search";
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 import { checkLoginStatus, logout } from "../../../store/admin-action";
 
@@ -37,22 +38,22 @@ const pages = [
   {
     link: "home",
     title: "Home",
-    icon: <HomeIcon />,
+    icon: <HomeIcon className="menu-icon" style={{backgroundImage:"linear-gradient(white, #1b5e20)", fontSize:"30px"}}/>,
   },
   {
     link: "products",
     title: "Products",
-    icon: <ProductionQuantityLimitsIcon />,
+    icon: <ProductionQuantityLimitsIcon className="menu-icon" style={{backgroundImage:"linear-gradient(white, #e65100)", fontSize:"30px"}}/>,
   },
   {
     link: "contact",
     title: "Contact Us",
-    icon: <ContactMailIcon />,
+    icon: <ContactMailIcon className="menu-icon" style={{backgroundImage:"linear-gradient(white, #7b1fa2)", fontSize:"30px"}}/>,
   },
   {
     link: "service",
     title: "Service",
-    icon: <MiscellaneousServicesIcon />,
+    icon: <MiscellaneousServicesIcon className="menu-icon" style={{backgroundImage:"linear-gradient(white, #c62828)", fontSize:"30px"}}/>,
   },
 ];
 const settings = ["Settings", "Logout"];
@@ -134,7 +135,12 @@ const Header = () => {
                 onClose={() => setAnchorElNav(false)}
                 onOpen={() => {}}
                 PaperProps={{
-                  sx: { width: 200 },
+                  sx: {
+                    width: 250,
+                    borderRadius: "0px 25px 25px 0px",
+                    borderRight: "10px solid #1976d2",
+                    overflowX:"hidden"
+                  },
                 }}
               >
                 <Typography
@@ -152,6 +158,20 @@ const Header = () => {
                   Pragya RO System
                 </Typography>
                 <Divider />
+                <Button 
+                onClick={() => setAnchorElNav(false)}
+                style={{
+                  position:"absolute",
+                   top:"350px",right:"-17px",
+                   backgroundColor:"#1976d2",
+                   color:"white",
+                   padding:10,
+                   minWidth:0,
+                   borderRadius:"90% 0px 0px 90%",
+                   boxShadow:"-2px 0px 2px grey",
+                   fontSize:"30px",
+                   zIndex:10,
+                }}><ArrowBackIosIcon /></Button>
                 <List>
                   {pages.map((page, index) => {
                     return (
@@ -160,6 +180,7 @@ const Header = () => {
                         style={{
                           width: "90%",
                           borderRadius: "0px 45px 45px 0px",
+                          marginTop:"10px"
                         }}
                       >
                         <NavLink
@@ -252,11 +273,18 @@ const Header = () => {
                   style={{
                     marginLeft: "5px",
                     padding: "5px",
-                    fontSize: "17px",
+                    fontSize: "15px",
                     textDecoration: "none",
                     borderRadius: "5px",
+                    display:"flex",
+                    flexDirection:"column",
+                    alignItems:"center",
+                    gap:"0px",
+                    transition:"0.3s",
+                    fontWeight:"bold"
                   }}
                 >
+                  {page.icon}
                   {page.title}
                 </NavLink>
               ))}
