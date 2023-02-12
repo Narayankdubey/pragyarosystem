@@ -8,7 +8,8 @@ const initialState = {
   productDetailsSkeleton:true,
   filterElementLoader: false,
   searchLoader: false,
-  emailSendLoader: false
+  emailSendLoader: false,
+  darkMode:false,
 };
 
 const uiSlice = createSlice({
@@ -31,6 +32,9 @@ const uiSlice = createSlice({
     },
     toggleLoader(state, action) {
       state.loading = !state.loading;
+    },
+    toggleDarkMode(state, action) {
+      state.darkMode = action.payload;
     },
     toggleSkeleton(state, action) {
       state.skeleton = action.payload;

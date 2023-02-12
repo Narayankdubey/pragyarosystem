@@ -20,6 +20,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
+import Switch from '@mui/material/Switch';
 import MenuItem from "@mui/material/MenuItem";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import HomeIcon from "@mui/icons-material/Home";
@@ -28,40 +29,128 @@ import ContactMailIcon from "@mui/icons-material/ContactMail";
 import CallIcon from "@mui/icons-material/Call";
 import MiscellaneousServicesIcon from "@mui/icons-material/MiscellaneousServices";
 import SearchIcon from "@mui/icons-material/Search";
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import { useTheme,styled } from '@mui/material/styles';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 import { checkLoginStatus, logout } from "../../../store/admin-action";
 
+import { uiActions } from "../../../store/ui-slice";
+
 import "./style.css";
+import Logo from "../../UI/logo";
+
+const MaterialUISwitch = styled(Switch)(({ theme }) => ({
+  width: 62,
+  height: 34,
+  padding: 7,
+  '& .MuiSwitch-switchBase': {
+    margin: 1,
+    padding: 0,
+    transform: 'translateX(6px)',
+    '&.Mui-checked': {
+      color: '#fff',
+      transform: 'translateX(22px)',
+      '& .MuiSwitch-thumb:before': {
+        backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 20 20"><path fill="${encodeURIComponent(
+          '#fff',
+        )}" d="M4.2 2.5l-.7 1.8-1.8.7 1.8.7.7 1.8.6-1.8L6.7 5l-1.9-.7-.6-1.8zm15 8.3a6.7 6.7 0 11-6.6-6.6 5.8 5.8 0 006.6 6.6z"/></svg>')`,
+      },
+      '& + .MuiSwitch-track': {
+        opacity: 1,
+        backgroundColor: theme.palette.mode === 'dark' ? '#8796A5' : '#aab4be',
+      },
+    },
+  },
+  '& .MuiSwitch-thumb': {
+    backgroundColor: theme.palette.mode === 'dark' ? '#003892' : '#001e3c',
+    width: 32,
+    height: 32,
+    '&:before': {
+      content: "''",
+      position: 'absolute',
+      width: '100%',
+      height: '100%',
+      left: 0,
+      top: 0,
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'center',
+      backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 20 20"><path fill="${encodeURIComponent(
+        '#fff',
+      )}" d="M9.305 1.667V3.75h1.389V1.667h-1.39zm-4.707 1.95l-.982.982L5.09 6.072l.982-.982-1.473-1.473zm10.802 0L13.927 5.09l.982.982 1.473-1.473-.982-.982zM10 5.139a4.872 4.872 0 00-4.862 4.86A4.872 4.872 0 0010 14.862 4.872 4.872 0 0014.86 10 4.872 4.872 0 0010 5.139zm0 1.389A3.462 3.462 0 0113.471 10a3.462 3.462 0 01-3.473 3.472A3.462 3.462 0 016.527 10 3.462 3.462 0 0110 6.528zM1.665 9.305v1.39h2.083v-1.39H1.666zm14.583 0v1.39h2.084v-1.39h-2.084zM5.09 13.928L3.616 15.4l.982.982 1.473-1.473-.982-.982zm9.82 0l-.982.982 1.473 1.473.982-.982-1.473-1.473zM9.305 16.25v2.083h1.389V16.25h-1.39z"/></svg>')`,
+    },
+  },
+  '& .MuiSwitch-track': {
+    opacity: 1,
+    backgroundColor: theme.palette.mode === 'dark' ? '#8796A5' : '#aab4be',
+    borderRadius: 20 / 2,
+  },
+}));
+
 
 const pages = [
   {
-    link: "home",
+    link: "",
     title: "Home",
-    icon: <HomeIcon className="menu-icon" style={{backgroundImage:"linear-gradient(white, #1b5e20)", fontSize:"30px"}}/>,
+    icon: (
+      <HomeIcon
+        className="menu-icon"
+        style={{
+          backgroundImage: "linear-gradient(#81c784, #388e3c)",
+          fontSize: "30px",
+        }}
+      />
+    ),
   },
   {
     link: "products",
     title: "Products",
-    icon: <ProductionQuantityLimitsIcon className="menu-icon" style={{backgroundImage:"linear-gradient(white, #e65100)", fontSize:"30px"}}/>,
+    icon: (
+      <ProductionQuantityLimitsIcon
+        className="menu-icon"
+        style={{
+          backgroundImage: "linear-gradient(#ce93d8, #ab47bc)",
+          fontSize: "30px",
+        }}
+      />
+    ),
   },
   {
     link: "contact",
     title: "Contact Us",
-    icon: <ContactMailIcon className="menu-icon" style={{backgroundImage:"linear-gradient(white, #7b1fa2)", fontSize:"30px"}}/>,
+    icon: (
+      <ContactMailIcon
+        className="menu-icon"
+        style={{
+          backgroundImage: "linear-gradient(#ffb74d, #f57c00)",
+          fontSize: "30px",
+        }}
+      />
+    ),
   },
   {
     link: "service",
     title: "Service",
-    icon: <MiscellaneousServicesIcon className="menu-icon" style={{backgroundImage:"linear-gradient(white, #c62828)", fontSize:"30px"}}/>,
+    icon: (
+      <MiscellaneousServicesIcon
+        className="menu-icon"
+        style={{
+          backgroundImage: "linear-gradient(#e57373, #d32f2f)",
+          fontSize: "30px",
+        }}
+      />
+    ),
   },
 ];
 const settings = ["Settings", "Logout"];
 
 const Header = () => {
+  const theme = useTheme()
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { loggedIn } = useSelector((state) => state.admin);
+  const { darkMode } = useSelector((state) => state.ui);
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
 
@@ -100,11 +189,21 @@ const Header = () => {
 
   return (
     <>
-      <h1 className="top-heading">Pragya RO System</h1>
+      {/* <h1 className="top-heading">Pragya RO System</h1> */}
+      <Box display={"flex"} justifyContent="space-between" alignItems="center" padding={"8px 24px"} bgcolor={darkMode ? theme.palette.background.paper:theme.palette.primary.main}>
+        {/* <Typography variant="h5" color={"white"}>Pragya Ro System</Typography> */}
+        <Logo />
+        <FormGroup>
+      <FormControlLabel
+        control={<MaterialUISwitch sx={{ m: 1 }} />}
+        label={darkMode ?"Night":"Day"}
+        onChange={({target})=>dispatch(uiActions.toggleDarkMode(target.checked))}
+      /></FormGroup>
+      </Box>
       <AppBar position="sticky">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
-            <Typography
+            {/* <Typography
               variant="h6"
               noWrap
               component="div"
@@ -117,7 +216,7 @@ const Header = () => {
               }}
             >
               Pragya RO System
-            </Typography>
+            </Typography> */}
 
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
               <IconButton
@@ -139,11 +238,14 @@ const Header = () => {
                     width: 250,
                     borderRadius: "0px 25px 25px 0px",
                     borderRight: "10px solid #1976d2",
-                    overflowX:"hidden"
+                    overflowX: "hidden",
                   },
                 }}
               >
-                <Typography
+                <Box padding={3} display={"flex"} justifyContent={"center"}>
+                <Logo />
+                </Box>
+                {/* <Typography
                   variant="h6"
                   style={{
                     padding: 15,
@@ -156,22 +258,26 @@ const Header = () => {
                   }}
                 >
                   Pragya RO System
-                </Typography>
-                <Divider />
-                <Button 
-                onClick={() => setAnchorElNav(false)}
-                style={{
-                  position:"absolute",
-                   top:"350px",right:"-17px",
-                   backgroundColor:"#1976d2",
-                   color:"white",
-                   padding:10,
-                   minWidth:0,
-                   borderRadius:"90% 0px 0px 90%",
-                   boxShadow:"-2px 0px 2px grey",
-                   fontSize:"30px",
-                   zIndex:10,
-                }}><ArrowBackIosIcon /></Button>
+                </Typography> */}
+                {/* <Divider /> */}
+                <Button
+                  onClick={() => setAnchorElNav(false)}
+                  style={{
+                    position: "absolute",
+                    bottom: "50px",
+                    right: "-17px",
+                    backgroundColor: "#1976d2",
+                    color: "white",
+                    padding: 10,
+                    minWidth: 0,
+                    borderRadius: "90% 0px 0px 90%",
+                    boxShadow: "-2px 0px 2px grey",
+                    // transform:"rotate(90deg)",
+                    zIndex: 10,
+                  }}
+                >
+                  <ArrowBackIosIcon style={{fontSize:"20px"}}/>
+                </Button>
                 <List>
                   {pages.map((page, index) => {
                     return (
@@ -180,7 +286,7 @@ const Header = () => {
                         style={{
                           width: "90%",
                           borderRadius: "0px 45px 45px 0px",
-                          marginTop:"10px"
+                          marginTop: "10px",
                         }}
                       >
                         <NavLink
@@ -260,7 +366,7 @@ const Header = () => {
                 display: { xs: "flex", md: "none" },
               }}
             >
-              Pragya RO System
+              {/* Pragya RO System */}
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               {pages.map((page) => (
@@ -276,12 +382,12 @@ const Header = () => {
                     fontSize: "15px",
                     textDecoration: "none",
                     borderRadius: "5px",
-                    display:"flex",
-                    flexDirection:"column",
-                    alignItems:"center",
-                    gap:"0px",
-                    transition:"0.3s",
-                    fontWeight:"bold"
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: "0px",
+                    transition: "0.3s",
+                    fontWeight: "bold",
                   }}
                 >
                   {page.icon}

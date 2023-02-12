@@ -1,9 +1,10 @@
 import React from "react";
-import { Button, Typography, Paper } from "@mui/material";
+import { Button, Typography, Paper, Box } from "@mui/material";
 import CallIcon from "@mui/icons-material/Call";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import { Link } from "react-router-dom";
 import Carousel from "react-bootstrap/Carousel";
+import { useTheme,styled } from '@mui/material/styles';
 
 import Products from "../product";
 import ContactUsForm from "../contact/ContactUsForm";
@@ -60,6 +61,7 @@ const feedback = [
 ];
 
 const Home = () => {
+  const theme = useTheme()
   const carouselItem = [
     { name: "newYearOffer", link: offer },
     { name: "newYearOffer", link: navvarsh },
@@ -71,13 +73,13 @@ const Home = () => {
   ];
   return (
     <>
-      <div
+      <Box
+        bgcolor={theme.palette.background.paper}
         style={{
           minHeight: "calc(100vh - 128px)",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          background: "#f8f9fa",
         }}
       >
         <Carousel className="carousel-bigscreen">
@@ -111,7 +113,8 @@ const Home = () => {
             );
           })}
         </Carousel>
-        <div className="mobie-banner">
+        <Box className="mobie-banner">
+          {/* <Typography variant="h3">Buy Water Purifiers <br /> At Lowest Price</Typography> */}
           <h2>
             Buy Water Purifiers <br /> At Lowest Price
           </h2>
@@ -122,7 +125,7 @@ const Home = () => {
             alt="banner"
           />
           <p>Best Place to Buy</p>
-          <div className="contact-banner">
+          <Box className="contact-banner">
             <Button
               href="tel:8920310622"
               variant="contained"
@@ -139,11 +142,11 @@ const Home = () => {
             >
               Whatsapp
             </Button>
-          </div>
-        </div>
-        <div className="product-intro">
+          </Box>
+        </Box>
+        <Box className="product-intro">
           <h2>RO Water Purifiers</h2>
-          <div className="product-intro-left">
+          <Box className="product-intro-left">
             <p>
               Trusted by Millions, India’s Cheapest and most awarded RO Water
               Purifiers make your water 100% pure. With its revolutionary
@@ -154,66 +157,66 @@ const Home = () => {
             <Link to="/products">
               <Button variant="contained">View More</Button>
             </Link>
-          </div>
-          <div className="product-intro-right">
+          </Box>
+          <Box className="product-intro-right">
             <img
               src="https://www.kent.co.in/images/ro/water-purifiers.png"
               alt="RO purifiers"
               width="300px"
               loading="lazy"
             ></img>
-          </div>
-        </div>
-        <div className="product-intro">
+          </Box>
+        </Box>
+        <Box className="product-intro">
           <h2>UV Water Purifiers</h2>
-          <div className="product-intro-left">
-            <p>
+          <Box className="product-intro-left">
+            <Typography>
               Pragya RO System offers innovative UV Water Purifiers that are
               easy to use and disinfect water without altering its taste and
               odour. These purifiers are equipped with UV followed by UF
               membrane to disinfect water, making it free from deadly bacteria,
               viruses and cysts.
-            </p>
+            </Typography>
             <Link to="/products">
               <Button variant="contained">View More</Button>
             </Link>
-          </div>
-          <div className="product-intro-right">
+          </Box>
+          <Box className="product-intro-right">
             <img
               src="https://www.kent.co.in/images/water-purifiers/uv/uv-water-purifiers-main-banner.png"
               alt="RO purifiers"
               width="300px"
               loading="lazy"
             ></img>
-          </div>
-        </div>
-        <div className="product-intro">
+          </Box>
+        </Box>
+        <Box className="product-intro">
           <h2>Gravity Water Purifiers</h2>
-          <div className="product-intro-left">
-            <p>
+          <Box className="product-intro-left">
+            <Typography>
               Pragya RO System has brought up its high end non electric Gravity
               Water Purifiers that use natural force of gravity to eliminate
               suspended impurities, bacteria and cyst to make your drinking
               water pure. This eradicates the rising problem of contaminated
               water in rural areas.
-            </p>
+            </Typography>
             <Link to="/products">
               <Button variant="contained">View More</Button>
             </Link>
-          </div>
-          <div className="product-intro-right">
+          </Box>
+          <Box className="product-intro-right">
             <img
               src="https://www.kent.co.in/images/water-purifiers/gravity-uf/gravity-uf-banner-mobile.png"
               alt="RO purifiers"
               width="300px"
               loading="lazy"
             ></img>
-          </div>
-        </div>
-        <div className="product-intro">
+          </Box>
+        </Box>
+        <Box className="product-intro">
           <h2>Customer Service</h2>
-          <div className="product-intro-left">
-            <p>
+          <Box className="product-intro-left">
+            <Typography>
               Service is an essential part of a Water Purifier as you may
               require to change the filters. Getting Genuine Service from Pragya
               RO System is important as only from Pragya RO System you can get
@@ -221,21 +224,21 @@ const Home = () => {
               Pure Water. Call only 89203 10622 from anywhere in Ara. Please do
               not call any other number or dealers directly. Service Request can
               also be made here.
-            </p>
+            </Typography>
             <Link to="/service">
               <Button variant="contained">Request Service</Button>
             </Link>
-          </div>
-          <div className="product-intro-right">
+          </Box>
+          <Box className="product-intro-right">
             <img
               src="https://www.kent.co.in/images/home-img/kent-employee.png"
               alt="RO purifiers"
               width="300px"
               loading="lazy"
             ></img>
-          </div>
-        </div>
-        <div className="filterdProduct">
+          </Box>
+        </Box>
+        <Box className="filterdProduct" >
           <Typography
             component={"h6"}
             variant="h5"
@@ -249,7 +252,7 @@ const Home = () => {
             Aquaguard
           </Typography>
           <Products filterData="Aqua" />
-          <div
+          <Box
             style={{
               padding: "10px",
               display: "flex",
@@ -267,10 +270,10 @@ const Home = () => {
             >
               see all
             </Link>
-          </div>
-        </div>
-      </div>
-      <div className="feed-view-container">
+          </Box>
+        </Box>
+      </Box>
+      <Box className="feed-view-container">
         {feedback.map((data, index) => (
           <Paper className="feed-container" elevation={18} key={index}>
             <q>
@@ -284,7 +287,7 @@ const Home = () => {
             </Typography>
           </Paper>
         ))}
-      </div>
+      </Box>
       <ContactUsForm />
     </>
   );

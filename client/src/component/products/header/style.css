@@ -13,7 +13,7 @@
   border-radius: 5px;
 }
 
-@keyframes top-heading-animation {
+/* @keyframes top-heading-animation {
   0% {
     letter-spacing: 5px;
     color: black;
@@ -34,8 +34,8 @@
     letter-spacing: 5px;
     color: black;
   }
-}
-@media screen and (max-width: 520px) {
+} */
+/* @media screen and (max-width: 520px) {
   .top-heading {
     font-size: 25px;
   }
@@ -59,11 +59,10 @@
   .top-heading {
     height: 25px;
   }
-}
+} */
 
 .drawer-nav-menu {
   padding: 7px;
-  /* width: 90%; */
   color: black;
   text-decoration: none;
   display: flex;

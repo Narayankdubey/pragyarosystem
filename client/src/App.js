@@ -3,6 +3,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { Routes, Route, useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Cookies from "js-cookie";
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import { blue, grey } from '@mui/material/colors';
 
 import "./App.css";
 import Header from "./component/products/header";
@@ -33,8 +36,40 @@ function App() {
   const { loggedIn } = useSelector((state) => state.admin);
   const notification = useSelector((state) => state.ui.notification);
   const loader = useSelector((state) => state.ui.loading);
+  const {darkMode} = useSelector((state) => state.ui);
   const dispatch = useDispatch();
   const { pathname } = useLocation();
+
+  const getDesignTokens = (mode) => ({
+    palette: {
+      mode,
+      ...(mode === 'light'
+        ? {
+            // palette values for light mode
+            primary: blue,
+            divider: blue[200],
+            text: {
+              primary: grey[900],
+              secondary: grey[800],
+            },
+          }
+        : {
+            // palette values for dark mode
+            primary: grey,
+            divider: grey[700],
+            background: {
+              default: grey[900],
+              paper: grey[900],
+            },
+            text: {
+              primary: '#fff',
+              secondary: grey[500],
+            },
+          }),
+    },
+  });
+
+  const darkTheme = createTheme(getDesignTokens(darkMode ? "dark" : "light"));
 
   useEffect(() => {
     setTimeout(() => checkVisitor(), 15000);
@@ -68,6 +103,8 @@ function App() {
   };
 
   return (
+    <ThemeProvider theme={darkTheme}>
+    <CssBaseline />
     <div className="App">
       {notification && !loader && (
         <Notification
@@ -142,6 +179,7 @@ function App() {
       </Routes>
       <Footer />
     </div>
+    </ThemeProvider>
   );
 }
 
