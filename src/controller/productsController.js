@@ -99,7 +99,7 @@ const getAllRatings = async (rawData = []) => {
         average: 0,
       };
       let sum = 0;
-      reviewData.forEach((element) => {
+      for (let element of reviewData) {
         sum = sum + element.rating;
         switch (element.rating) {
           case 1:
@@ -120,7 +120,7 @@ const getAllRatings = async (rawData = []) => {
           default:
             break;
         }
-      });
+      }
       reviewStats.average = Math.round(sum / reviewData.length || 0, 1);
       data[i].reviewDetails = reviewStats;
     }
@@ -186,7 +186,7 @@ const getRatings = async (rawData = {}) => {
       reviewCount: 0,
     };
     let sum = 0;
-    reviewData.forEach((element) => {
+    for (let element of reviewData) {
       sum = sum + element.rating;
       switch (element.rating) {
         case 1:
@@ -210,7 +210,7 @@ const getRatings = async (rawData = {}) => {
       if (element.review && element.review.length > 0) {
         reviewStats.reviewCount = reviewStats.reviewCount + 1;
       }
-    });
+    }
     reviewStats.average = Math.round(sum / reviewData.length || 0, 1);
     item.reviewDetails = reviewStats;
   }
