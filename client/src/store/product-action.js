@@ -86,7 +86,7 @@ export const saveContactUs = (data) => {
   };
 };
 
-export const getProduct = (id) => {
+export const getProduct = (id="") => {
   return async (dispatch) => {
     dispatch(uiActions.toggleProductDetailsSkeleton(true));
     const getData = async () => {
@@ -115,6 +115,7 @@ export const getProduct = (id) => {
     }
   };
 };
+
 export const clearProduct = () => {
   return async (dispatch) => {
     dispatch(uiActions.toggleLoader());
@@ -138,6 +139,7 @@ export const clearProduct = () => {
     }
   };
 };
+
 export const getFilterElements = (data = {}) => {
   return async (dispatch) => {
     dispatch(uiActions.filterElementLoader(true));
@@ -232,6 +234,89 @@ export const saveServiceRequest = (data) => {
       }
     } finally {
       dispatch(uiActions.toggleLoader());
+    }
+  };
+};
+
+export const getReview = (id = "") => {
+  return async (dispatch) => {
+    dispatch(productActions.updateReviewLoading(true));
+    const getData = async () => {
+      const response = await axios.get(`${baseURL}review/${id}`);
+      if (response.status === "failure") {
+        throw new Error(response.data.message);
+      }
+      return response;
+    };
+    try {
+      const data = await getData();
+      dispatch(productActions.updateReviewList(data.data));
+    } catch (error) {
+      console.log(error);
+      if (error.response) {
+        // Request made and server responded
+        dispatch(
+          uiActions.showNotification({
+            status: "error",
+            title: "error",
+            message: error.response.data,
+          })
+        );
+      }
+    } finally {
+      dispatch(productActions.updateReviewLoading(false));
+    }
+  };
+};
+export const clearReview = () => {
+  return async (dispatch) => {
+    dispatch(productActions.updateReviewLoading(true));
+    try {
+      dispatch(productActions.updateReviewList([]));
+    } catch (error) {
+      console.log(error);
+      if (error.response) {
+        // Request made and server responded
+        dispatch(
+          uiActions.showNotification({
+            status: "error",
+            title: "error",
+            message: error.response.data,
+          })
+        );
+      }
+    } finally {
+      dispatch(productActions.updateReviewLoading(false));
+    }
+  };
+};
+export const saveReview = (data) => {
+  return async (dispatch) => {
+    dispatch(uiActions.toggleSkeleton(true));
+    const saveData = async () => {
+      const response = await axios.post(`${baseURL}review`,data);
+      if (response.status === "failure") {
+        throw new Error(response.data.message);
+      }
+      return response;
+    };
+    try {
+      const data = await saveData();
+      // dispatch(productActions.updateReviewList(data.data));
+    } catch (error) {
+      console.log(error);
+      if (error.response) {
+        // Request made and server responded
+        dispatch(
+          uiActions.showNotification({
+            status: "error",
+            title: "error",
+            message: error.response.data,
+          })
+        );
+      }
+    } finally {
+      dispatch(uiActions.toggleSkeleton(false));
     }
   };
 };

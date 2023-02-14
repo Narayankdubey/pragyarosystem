@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   Grid,
   Paper,
   Typography,
-  Button,
-  IconButton,
+  Rating,
   Fab,
   Badge,
+  Box,
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
 import BoltIcon from "@mui/icons-material/Bolt";
 import WaterIcon from "@mui/icons-material/Water";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -56,7 +54,7 @@ const Products = ({ filterData }) => {
     } else {
     }
     return () => dispatch(clearProduct());
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [path, sortData, filterQuery]);
 
   useEffect(() => {
@@ -70,7 +68,7 @@ const Products = ({ filterData }) => {
       dispatch(getAllProducts(filterQuery, page + 1, 5, searchInput, sortData));
       setLoadData(false);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loadData]);
 
   useEffect(() => {
@@ -83,7 +81,7 @@ const Products = ({ filterData }) => {
     }, 300);
 
     return () => clearTimeout(delayDebounceFn);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchInput]);
 
   function handleScroll() {
@@ -145,27 +143,21 @@ const Products = ({ filterData }) => {
         setDeleteModalOpen={setDeleteModalOpen}
         productId={deleteId}
       />
-      <div style={{ minHeight: "calc(100% - 256px)", paddingTop:"20px" }}>
-        <Grid
-          container
-          spacing={2}
-          p={2}
-          gap={4}
-          justifyContent={"center"}
-        >
+      <div style={{ minHeight: "calc(100% - 256px)", paddingTop: "20px" }}>
+        <Grid container spacing={2} p={2} gap={4} justifyContent={"center"}>
           {data.map((data, index) => {
             return (
-              <Link to={"/products/"+data._id} className="products-link">
-              <Paper
-                key={index}
-                sx={{
-                  padding: "10px",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                }}
-              >
-                {/* {loggedIn && (
+              <Link to={"/products/" + data._id} className="products-link">
+                <Paper
+                  key={index}
+                  sx={{
+                    padding: "10px",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                  }}
+                >
+                  {/* {loggedIn && (
                   <div
                     style={{
                       width: "100%",
@@ -188,51 +180,65 @@ const Products = ({ filterData }) => {
                     </IconButton>
                   </div>
                 )} */}
-                <div className="product-inside-container">
-                  <div className="img-product-container">
-                    <img
-                      src={data.img}
-                      width="110"
-                      height="200"
-                      alt={data.img}
-                    />
-                  </div>
-                  <div className="detail-product-container">
-                    <Typography variant="h6" style={{ textAlign: "center" }}>
-                      {data.product_name}
-                    </Typography>
-                    <Typography variant="body2" style={{ textAlign: "center" }}>
-                      ({data.purifying_technology})
-                    </Typography>
-                    <Typography variant="body2" style={{ marginTop: "5px" }}>
-                      <WaterIcon /> {data.capacity}L Capacity
-                    </Typography>
-                    <Typography variant="body2">
-                      <BoltIcon /> {data.voltage}VDC Volt
-                    </Typography>
-                    <Typography variant="body2">
-                      <SettingsIcon /> {data.booster_pump} Booster Pump
-                    </Typography>
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        fontWeight: "600",
-                        textAlign: "center",
-                        marginTop: "5px",
-                      }}
-                    >
-                      MRP ₹{data.price}/-
-                    </Typography>
-                    {/* <Button
+                  <div className="product-inside-container">
+                    <div className="img-product-container">
+                      <img
+                        src={data.img}
+                        width="110"
+                        height="200"
+                        alt={data.img}
+                      />
+                    </div>
+                    <div className="detail-product-container">
+                      <Typography variant="h6" style={{ textAlign: "center" }}>
+                        {data.product_name}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        style={{ textAlign: "center" }}
+                      >
+                        ({data.purifying_technology})
+                      </Typography>
+                      {data?.reviewDetails?.average !== 0 && (
+                        <Box display={"flex"} alignItems="center">
+                          <Rating
+                            name="read-only"
+                            value={data?.reviewDetails?.average}
+                            readOnly
+                          />
+                          ({data?.reviewDetails?.total})
+                        </Box>
+                      )}
+                      <Typography variant="body2" style={{ marginTop: "5px" }}>
+                        <WaterIcon /> {data.capacity}L Capacity
+                      </Typography>
+                      <Typography variant="body2">
+                        <BoltIcon /> {data.voltage}VDC Volt
+                      </Typography>
+                      <Typography variant="body2">
+                        <SettingsIcon /> {data.booster_pump} Booster Pump
+                      </Typography>
+                      <Typography
+                        variant="body1"
+                        sx={{
+                          fontWeight: "600",
+                          textAlign: "center",
+                          marginTop: "5px",
+                        }}
+                      >
+                        MRP ₹{data.price}/-
+                      </Typography>
+
+                      {/* <Button
                       variant="contained"
                       onClick={buyNowHandler}
                       style={{ marginTop: "10px", width: "100%" }}
                     >
                       Buy Now
                     </Button> */}
+                    </div>
                   </div>
-                </div>
-              </Paper>
+                </Paper>
               </Link>
             );
           })}

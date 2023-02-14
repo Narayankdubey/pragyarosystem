@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Skeleton,Paper } from "@mui/material";
+import { Grid, Skeleton, Paper } from "@mui/material";
 
 const ProductDetailSkeleton = () => {
   return (
@@ -17,6 +17,14 @@ const ProductDetailSkeleton = () => {
         <Skeleton height={50} />
         <Skeleton height={50} />
         <Skeleton height={50} />
+      </Grid>
+      <Grid item xs={24} sm={24} md={24}>
+        <Paper sx={{m:1}}>
+          <Skeleton variant="rectangular" height={100} width={"40%"} />
+        </Paper>
+        <Paper sx={{m:1}}>
+          <Skeleton variant="rectangular" height={100} width={"40%"} />
+        </Paper>
       </Grid>
     </Grid>
   );

@@ -1,5 +1,6 @@
 const res = require("express/lib/response");
 const productModal = require("../model/product");
+const reviewModal = require("../model/review");
 const { customPagination } = require("../utils/utilities");
 
 var cloudinary = require("cloudinary").v2;
@@ -77,6 +78,56 @@ const storeProducts = async (req, res) => {
   }
 };
 
+// GET RATING FOR EACH PRODUCT //
+
+const getAllRatings = async (rawData = []) => {
+  const data = JSON.parse(JSON.stringify(rawData));
+  if (data && data.length <= 0) {
+    return [];
+  }
+  for (let i = 0; i < data.length; i++) {
+    const item = data[i];
+    if (item?._id) {
+      const reviewData = await reviewModal.find({ productId: item?._id });
+      let reviewStats = {
+        total: reviewData.length,
+        5: 0,
+        4: 0,
+        3: 0,
+        2: 0,
+        1: 0,
+        average: 0,
+      };
+      let sum = 0;
+      reviewData.forEach((element) => {
+        sum = sum + element.rating;
+        switch (element.rating) {
+          case 1:
+            reviewStats[1] = reviewStats[1] + 1;
+            break;
+          case 2:
+            reviewStats[2] = reviewStats[2] + 1;
+            break;
+          case 3:
+            reviewStats[3] = reviewStats[3] + 1;
+            break;
+          case 4:
+            reviewStats[4] = reviewStats[4] + 1;
+            break;
+          case 5:
+            reviewStats[5] = reviewStats[5] + 1;
+            break;
+          default:
+            break;
+        }
+      });
+      reviewStats.average = Math.round(sum / reviewData.length || 0, 1);
+      data[i].reviewDetails = reviewStats;
+    }
+  }
+  return data;
+};
+
 // GET ALL DATA //
 const getProducts = async (req, res) => {
   try {
@@ -86,7 +137,7 @@ const getProducts = async (req, res) => {
     const query = req.query.search || "";
     const sortData = req.query.sort || "product_name";
     const sortOrder = req.query.sortOrder || 1;
-    const page = Math.max(0, parseInt(req.query.page)||1);
+    const page = Math.max(0, parseInt(req.query.page) || 1);
     const limit = parseInt(req.query.limit) || 5;
     const regex = new RegExp(query, "i");
 
@@ -110,11 +161,60 @@ const getProducts = async (req, res) => {
     const productData = await productModal
       .find(finalQuery)
       .sort({ [sortData]: sortOrder });
-    const resultData = customPagination(productData, limit, page);
+    const dataWithRating = await getAllRatings(productData);
+    const resultData = customPagination(dataWithRating, limit, page);
     res.status(201).send(resultData);
   } catch (e) {
     res.send(e);
   }
+};
+
+// GET RATING FOR EACH PRODUCT //
+
+const getRatings = async (rawData = {}) => {
+  const item = JSON.parse(JSON.stringify(rawData));
+  if (item?._id) {
+    const reviewData = await reviewModal.find({ productId: item?._id });
+    let reviewStats = {
+      total: reviewData.length,
+      5: 0,
+      4: 0,
+      3: 0,
+      2: 0,
+      1: 0,
+      average: 0,
+      reviewCount: 0,
+    };
+    let sum = 0;
+    reviewData.forEach((element) => {
+      sum = sum + element.rating;
+      switch (element.rating) {
+        case 1:
+          reviewStats[1] = reviewStats[1] + 1;
+          break;
+        case 2:
+          reviewStats[2] = reviewStats[2] + 1;
+          break;
+        case 3:
+          reviewStats[3] = reviewStats[3] + 1;
+          break;
+        case 4:
+          reviewStats[4] = reviewStats[4] + 1;
+          break;
+        case 5:
+          reviewStats[5] = reviewStats[5] + 1;
+          break;
+        default:
+          break;
+      }
+      if (element.review && element.review.length > 0) {
+        reviewStats.reviewCount = reviewStats.reviewCount + 1;
+      }
+    });
+    reviewStats.average = Math.round(sum / reviewData.length || 0, 1);
+    item.reviewDetails = reviewStats;
+  }
+  return item;
 };
 
 // GET DATA BY ID //
@@ -125,7 +225,8 @@ const getproductDetail = async (req, res) => {
     if (!productData) {
       return res.status(404).send();
     } else {
-      res.send(productData);
+      const dataWithRating = await getRatings(productData);
+      res.send(dataWithRating);
     }
   } catch (e) {
     res.status(500).send(e);

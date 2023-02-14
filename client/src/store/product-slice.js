@@ -6,6 +6,8 @@ const initialState = {
   infoModal: false,
   filterElements: {},
   searchSuggestions: [],
+  review:[],
+  reviewLoading:false,
 };
 
 const productSlice = createSlice({
@@ -32,6 +34,12 @@ const productSlice = createSlice({
     updateSearchSuggestions: (state, action) => {
       state.searchSuggestions = action.payload;
     },
+    updateReviewList:(state,action)=>{
+      state.review = action.payload;
+    },
+    updateReviewLoading:(state,action)=>{
+      state.reviewLoading = action.payload;
+    }
   },
 });
 export const productActions = productSlice.actions;
