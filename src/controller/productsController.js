@@ -161,8 +161,8 @@ const getProducts = async (req, res) => {
     const productData = await productModal
       .find(finalQuery)
       .sort({ [sortData]: sortOrder });
-    // const dataWithRating = await getAllRatings(productData);
-    const resultData = customPagination(productData, limit, page);
+    const dataWithRating = await getAllRatings(productData);
+    const resultData = customPagination(dataWithRating, limit, page);
     res.status(201).send(resultData);
   } catch (e) {
     res.send(e);
@@ -225,8 +225,8 @@ const getproductDetail = async (req, res) => {
     if (!productData) {
       return res.status(404).send();
     } else {
-      // const dataWithRating = await getRatings(productData);
-      res.send(productData);
+      const dataWithRating = await getRatings(productData);
+      res.send(dataWithRating);
     }
   } catch (e) {
     res.status(500).send(e);
