@@ -37,9 +37,7 @@ const ProductDetails = () => {
   const { id } = useParams();
   const [reviewModal, setReviewModal] = useState(false);
 
-  const { product,} = useSelector(
-    (state) => state.product
-  );
+  const { product } = useSelector((state) => state.product);
 
   const { productDetailsSkeleton } = useSelector((state) => state.ui);
 
@@ -113,11 +111,33 @@ const ProductDetails = () => {
     ];
   }, [product]);
 
+  const setTitle = (title) => {
+    const el = document.querySelector("title");
+    el.innerText = `${title}`;
+  };
+
+  const setDescription = (desc) => {
+    const el = document.querySelector("meta[name='description']");
+    el.setAttribute("content", desc);
+  };
+
   useEffect(() => {
     if (id) {
       dispatch(getProduct(id));
     }
   }, [dispatch, id]);
+
+  useEffect(() => {
+    if (Object.keys(product).length > 0) {
+      setTitle(product?.product_name || "pragya ro system");
+      setDescription(
+        `Buy ${product?.product_name} online at best price with offers in India. ${product?.product_name} (${product?.color}, ${product?.capacity}L) features and specifications include capacity of ${product?.capacity}L in ${product?.color}, purifying technology ${product?.purifying_technology}, booster pump ${product?.booster_pump} and voltage ${product?.voltage}.`
+      );
+    }
+    return () => {
+      setTitle("pragya ro system");
+    };
+  }, [product]);
 
   return (
     <div className="product-detail-container">
@@ -249,7 +269,7 @@ const ProductDetails = () => {
           )}
         </>
       )}
-      <Review setReviewModal={setReviewModal} id={id}/>
+      <Review setReviewModal={setReviewModal} id={id} />
       {reviewModal && (
         <ReviewModal {...{ open: reviewModal, setOpen: setReviewModal, id }} />
       )}
