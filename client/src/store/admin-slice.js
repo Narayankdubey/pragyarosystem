@@ -12,6 +12,8 @@ const initialState = {
   serviceRequestData: [],
   serviceRequestLoader:false,
   sentEmailData : [],
+  unKnownVisitors:[],
+  unKnownVisitorsLoading:false,
 };
 
 const adminSlice = createSlice({
@@ -54,6 +56,12 @@ const adminSlice = createSlice({
     },
     updateSentEmailList: (state, action) => {
       state.sentEmailData = action.payload;
+    },
+    updateUnknownVisitors: (state, action) => {
+      state.unKnownVisitors = action.payload || [];
+    },
+    updateUnknownVisitorsLoading: (state, action) => {
+      state.unKnownVisitorsLoading = action.payload;
     },
   },
 });

@@ -4,42 +4,51 @@ import { CircularProgress, Paper, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 
-import { getAllVisitors } from "../../../store/admin-action";
+import {
+    getAllUnknownVisitors,
+} from "../../../store/admin-action";
 
 const columns = [
-  { field: "name", headerName: "Name", width: 250 },
-  {
-    field: "mobile",
-    headerName: "Mobile No.",
-    type: "string",
-    width: 150,
-  },
   {
     field: "timeFromNow",
     headerName: "Time",
     width: 150,
   },
+  { field: "ip_address", headerName: "IP Address", width: 250 },
+  {
+    field: "referrer",
+    headerName: "Referrer",
+    type: "string",
+    width: 350,
+  },
+  {
+    field: "user_agent",
+    headerName: "User Agent",
+    type: "string",
+    width: 850,
+  },
 ];
 
-export default function Visitor() {
+export default function UnknownVisitor() {
   const dispatch = useDispatch();
 
-  const { visitors, visitorsLoader, } =
+  const { unKnownVisitors, unKnownVisitorsLoading } =
     useSelector((state) => state.admin);
 
   useEffect(() => {
-    dispatch(getAllVisitors());
+    dispatch(getAllUnknownVisitors());
     timeChange();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const timeChange = () => {
-    return visitors.map((d) => ({
+    return unKnownVisitors.map((d) => ({
       ...d,
       timeFromNow: moment(d.time).fromNow(),
     }));
   };
+  console.log(unKnownVisitors, 'unknow')
   return (
     <div>
       <Paper
@@ -55,13 +64,17 @@ export default function Visitor() {
         }}
       >
         <Typography variant="h6" component="h6">
-          Visitors:{" "}
-          {visitorsLoader ? <CircularProgress size={15}/> : visitors?.length || 0}
+          Unknown Visitors : 
+          {unKnownVisitorsLoading ? (
+            <CircularProgress size={15} />
+          ) : (
+            unKnownVisitors?.length || 0
+          )}
         </Typography>
       </Paper>
       <div style={{ height: 400, width: "100%", margin: "5px auto" }}>
         <DataGrid
-          loading={visitorsLoader}
+          loading={unKnownVisitorsLoading}
           getRowId={(r) => r._id}
           rows={timeChange()}
           columns={columns}

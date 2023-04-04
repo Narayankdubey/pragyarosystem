@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
 import AdminTableSkeleton from "../../UI/skeleton/AdminTableSkeleton";
+import UnknownVisitor from "../unknownVisitors";
 
 const Visitor = lazy(() => import("../visitor"));
 const AdminProducts = lazy(() => import("../products"));
@@ -68,6 +69,7 @@ export default function AdminHome() {
           <Tab label="Contact Us" {...a11yProps(1)} />
           <Tab label="Service Requests" {...a11yProps(2)} />
           <Tab label="Emails" {...a11yProps(3)} />
+          <Tab label="Unknown Visitors" {...a11yProps(4)} />
         </Tabs>
       </Box>
 
@@ -89,6 +91,11 @@ export default function AdminHome() {
       <TabPanel value={value} index={3}>
         <Suspense fallback={<AdminTableSkeleton/>}>
           <Emails />
+        </Suspense>
+      </TabPanel>
+      <TabPanel value={value} index={4}>
+        <Suspense fallback={<AdminTableSkeleton/>}>
+          <UnknownVisitor/>
         </Suspense>
       </TabPanel>
     </Box>
