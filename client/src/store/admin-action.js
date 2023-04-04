@@ -189,6 +189,62 @@ export const getAllVisitors = () => {
     }
   };
 };
+export const saveVisitorsCount = () => {
+  return async (dispatch) => {
+    const sendData = async () => {
+      const response = await axios.post(`${baseURL}unknownvisitors`);
+      if (response.status === "failure") {
+        throw new Error(response.data.message);
+      }
+      return response;
+    };
+    try {
+      await sendData();
+    } catch (error) {
+      console.log(error);
+      if (error.response) {
+        dispatch(
+          uiActions.showNotification({
+            status: "error",
+            title: "error",
+            message: error.response.data,
+          })
+        );
+      }
+    }
+  };
+};
+export const getAllUnknownVisitors = () => {
+  return async (dispatch) => {
+    dispatch(adminActions.updateUnknownVisitorsLoading(true));
+    const getData = async () => {
+      const response = await axios.get(`${baseURL}unknownvisitors`, {
+        headers: authHeader(),
+      });
+      if (response.status === "failure") {
+        throw new Error(response.data.message);
+      }
+      return response;
+    };
+    try {
+      const data = await getData();
+      dispatch(adminActions.updateUnknownVisitors(data.data));
+    } catch (error) {
+      console.log(error);
+      if (error.response) {
+        dispatch(
+          uiActions.showNotification({
+            status: "error",
+            title: "error",
+            message: error.response.data,
+          })
+        );
+      }
+    } finally {
+      dispatch(adminActions.updateUnknownVisitorsLoading(false));
+    }
+  };
+};
 
 export const getAllContactUs = () => {
   return async (dispatch) => {

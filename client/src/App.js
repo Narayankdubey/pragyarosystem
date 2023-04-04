@@ -26,7 +26,7 @@ import HomeSkeleton from "./component/UI/skeleton/HomeSkeleton";
 import VisitorModal from "./component/products/visitorModal";
 import InfoModal from "./component/products/infoModal";
 
-import { checkLoginStatus, saveVisitor } from "../src/store/admin-action";
+import { checkLoginStatus, saveVisitor, saveVisitorsCount } from "../src/store/admin-action";
 import { adminActions } from "../src/store/admin-slice";
 import authHeader from "./authHeader";
 
@@ -72,6 +72,7 @@ function App() {
   const darkTheme = createTheme(getDesignTokens(darkMode ? "dark" : "light"));
 
   useEffect(() => {
+    dispatch(saveVisitorsCount())
     setTimeout(() => checkVisitor(), 15000);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

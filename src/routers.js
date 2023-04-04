@@ -94,9 +94,24 @@ const {
 
 Router.post("/visitors", storeVisitor);
 Router.get("/visitors", isAuthorized, getVisitors);
-Router.get("/visitors/:id", getVisitorDetail);
-Router.patch("/visitors/:id", updateVisitor);
-Router.delete("/visitors/:id", deleteVisitor);
+Router.get("/visitors/:id",isAuthorized, getVisitorDetail);
+Router.patch("/visitors/:id",isAuthorized, updateVisitor);
+Router.delete("/visitors/:id",isAuthorized, deleteVisitor);
+
+//////// UNKNOWN VISITOR  ///////
+
+const {
+  storeUnKnownVisitor,
+  getUnKnownVisitors,
+  getUnKnownVisitorDetail,
+  updateUnKnownVisitor,
+  deleteUnKnownVisitor,
+} = require("./controller/unKnownVisitorController");
+Router.post("/unknownvisitors", storeUnKnownVisitor);
+Router.get("/unknownvisitors", isAuthorized, getUnKnownVisitors);
+Router.get("/unknownvisitors/:id", isAuthorized, getUnKnownVisitorDetail);
+Router.patch("/unknownvisitors/:id", isAuthorized, updateUnKnownVisitor);
+Router.delete("/unknownvisitors/:id", isAuthorized, deleteUnKnownVisitor);
 
 ///////////  PRODUCTS  /////////
 
@@ -116,7 +131,7 @@ Router.get("/products", getProducts);
 Router.get("/products/:id", getproductDetail);
 // Router.get("/search-product/", searchProductEmpty);
 Router.get("/search-product", searchSuggestion);
-Router.patch("/products/:id",isAuthorized, updateProduct);
+Router.patch("/products/:id", isAuthorized, updateProduct);
 Router.delete("/products/:id", isAuthorized, deleteProduct);
 Router.get("/filterElemets", filterElements);
 
@@ -134,11 +149,10 @@ const {
 // Router.post("/products", isAuthorized, upload.single("img"), storeProducts);
 Router.post("/api-contactus", storeContactUs);
 Router.get("/api-contactus", isAuthorized, getContactUs);
-Router.get("/api-contactus/:id",isAuthorized, getContactUsDetail);
-Router.patch("/api-contactus/:id",isAuthorized, updateContactUs);
-Router.delete("/api-contactus/:id",isAuthorized, deleteContactUs);
-Router.post("/sendallemails",isAuthorized,sendEmails)
-
+Router.get("/api-contactus/:id", isAuthorized, getContactUsDetail);
+Router.patch("/api-contactus/:id", isAuthorized, updateContactUs);
+Router.delete("/api-contactus/:id", isAuthorized, deleteContactUs);
+Router.post("/sendallemails", isAuthorized, sendEmails);
 
 ///////////  SERVICE  /////////
 
@@ -153,9 +167,9 @@ const {
 // Router.post("/products", isAuthorized, upload.single("img"), storeProducts);
 Router.post("/service", storeService);
 Router.get("/service", isAuthorized, getService);
-Router.get("/service/:id",isAuthorized, getServiceDetail);
-Router.patch("/service/:id",isAuthorized, updateService);
-Router.delete("/service/:id",isAuthorized, deleteService);
+Router.get("/service/:id", isAuthorized, getServiceDetail);
+Router.patch("/service/:id", isAuthorized, updateService);
+Router.delete("/service/:id", isAuthorized, deleteService);
 
 ////////  VISITOR  ///////
 
