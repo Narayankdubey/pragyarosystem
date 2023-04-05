@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, lazy, Suspense  } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -14,6 +14,7 @@ import {
   Typography,
   Rating,
   LinearProgress,
+  IconButton,
 } from "@mui/material";
 import { Box } from "@mui/system";
 
@@ -25,21 +26,29 @@ import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import EngineeringIcon from "@mui/icons-material/Engineering";
 import CoffeeMakerIcon from "@mui/icons-material/CoffeeMaker";
 import StarRateIcon from "@mui/icons-material/StarRate";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 
 import "./style.css";
 import "../../style/table.css";
 import ProductDetailSkeleton from "../../UI/skeleton/productDetailSkeleton";
 import ReviewModal from "./component/reviewModal";
-import Review from "./component/review";
+// import Review from "./component/review";
+import DeleteModal from "../../admin/deleteModal";
+
+const Review = lazy(() => import("./component/review"));
 
 const ProductDetails = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const [reviewModal, setReviewModal] = useState(false);
 
-  const { product } = useSelector((state) => state.product);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState("");
 
+  const { product } = useSelector((state) => state.product);
   const { productDetailsSkeleton } = useSelector((state) => state.ui);
+  const { loggedIn } = useSelector((state) => state.admin);
 
   function LinearProgressWithLabel({ value, total, type }) {
     return (
@@ -121,6 +130,11 @@ const ProductDetails = () => {
     el.setAttribute("content", desc);
   };
 
+  const deleteHandle = (productId) => {
+    setDeleteId(productId);
+    setDeleteModalOpen(true);
+  };
+
   useEffect(() => {
     if (id) {
       dispatch(getProduct(id));
@@ -141,11 +155,47 @@ const ProductDetails = () => {
 
   return (
     <div className="product-detail-container">
+      <DeleteModal
+        deleteModalOpen={deleteModalOpen}
+        setDeleteModalOpen={setDeleteModalOpen}
+        productId={deleteId}
+      />
       {productDetailsSkeleton ? (
         <ProductDetailSkeleton />
       ) : (
         <>
-          <Paper component={Grid} elevation={3} container spacing={1}>
+          <Paper
+            component={Grid}
+            elevation={3}
+            container
+            spacing={1}
+            position={"relative"}
+          >
+            {loggedIn && (
+              <div
+                style={{
+                  width: "30px",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  position: "absolute",
+                  right: 45,
+                  top: -35,
+                }}
+              >
+                <IconButton color="success">
+                  <EditIcon />
+                </IconButton>
+                <IconButton
+                  aria-label="delete"
+                  color="error"
+                  onClick={() => {
+                    deleteHandle(id);
+                  }}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </div>
+            )}
             <Box
               component={Grid}
               item
@@ -269,7 +319,9 @@ const ProductDetails = () => {
           )}
         </>
       )}
+      <Suspense fallback={<>Loading...</>}>
       <Review setReviewModal={setReviewModal} id={id} />
+        </Suspense>
       {reviewModal && (
         <ReviewModal {...{ open: reviewModal, setOpen: setReviewModal, id }} />
       )}

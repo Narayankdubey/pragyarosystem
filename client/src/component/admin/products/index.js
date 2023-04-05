@@ -77,34 +77,42 @@ const AdminProducts = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {products.map((products, index) => (
-              <TableRow
-                key={index}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {index + 1}.
-                </TableCell>
-                <TableCell component="th" scope="row">
-                  {products.product_name}
-                </TableCell>
-                <TableCell align="right">
-                  {products.purifying_technology}
-                </TableCell>
-                <TableCell align="right">
-                  {products.capacity}L Capacity
-                </TableCell>
-                <TableCell align="right">{products.voltage}VDC Volt</TableCell>
-                <TableCell align="right">MRP ₹{products.price}/-</TableCell>
-                <TableCell align="right">{products.img}</TableCell>
-                <TableCell align="center">
-                  <EditIcon sx={{ color: "green" }} />
-                </TableCell>
-                <TableCell align="center">
-                  <DeleteForeverIcon sx={{ color: "red" }} />
-                </TableCell>
-              </TableRow>
-            ))}
+            {products && products.length ? (
+              products.map((products, index) => (
+                <TableRow
+                  key={index}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    {index + 1}.
+                  </TableCell>
+                  <TableCell component="th" scope="row">
+                    {products.product_name}
+                  </TableCell>
+                  <TableCell align="right">
+                    {products.purifying_technology}
+                  </TableCell>
+                  <TableCell align="right">
+                    {products.capacity}L Capacity
+                  </TableCell>
+                  <TableCell align="right">
+                    {products.voltage}VDC Volt
+                  </TableCell>
+                  <TableCell align="right">MRP ₹{products.price}/-</TableCell>
+                  <TableCell align="right">{products.img}</TableCell>
+                  <TableCell align="center">
+                    <EditIcon sx={{ color: "green" }} />
+                  </TableCell>
+                  <TableCell align="center">
+                    <DeleteForeverIcon sx={{ color: "red" }} />
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableCell align="center" colSpan={8}>
+                Some issue with product or No Product Found
+              </TableCell>
+            )}
           </TableBody>
         </Table>
       </TableContainer>

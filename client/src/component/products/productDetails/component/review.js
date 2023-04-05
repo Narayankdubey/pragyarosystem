@@ -23,34 +23,32 @@ const Review = ({ setReviewModal, id }) => {
 
   const observer = useRef();
 
-  const lastBookElementRef = useCallback(
-    (node) => {
-        if (observer.current) observer.current.disconnect();
-        observer.current = new IntersectionObserver((entries) => {
-          if (entries[0].isIntersecting ) {
-            if(load === 0){
-                dispatch(getReview(id));
-                setLoad(1);
-            }
-          }
-        });
-        if (node) observer.current.observe(node);
-    },
-    []
-  );
+  const lastBookElementRef = useCallback((node) => {
+    if (observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        if (load === 0) {
+          dispatch(getReview(id));
+          setLoad(1);
+        }
+      }
+    });
+    if (node) observer.current.observe(node);
+  }, [dispatch, id, load]);
 
-    // useEffect(() => {
-    //   return(()=> {dispatch(clearReview())})
-    // }, [dispatch, id]);
+  useEffect(() => {
+    return () => {
+      dispatch(clearReview());
+    };
+  }, [dispatch, id]);
 
   return (
-    <Paper style={{ width: "100%" }}>
+    <Paper style={{ width: "100%" }} ref={lastBookElementRef}>
       <Box
         display={"flex"}
         justifyContent="space-between"
         alignItems={"center"}
         style={{ borderBottom: "1px solid grey" }}
-        ref={lastBookElementRef}
       >
         <Typography variant="h5">Top Reviews</Typography>
         <Button variant="outlined" onClick={setReviewModal}>

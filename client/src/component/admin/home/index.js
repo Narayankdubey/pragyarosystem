@@ -70,6 +70,7 @@ export default function AdminHome() {
           <Tab label="Service Requests" {...a11yProps(2)} />
           <Tab label="Emails" {...a11yProps(3)} />
           <Tab label="Unknown Visitors" {...a11yProps(4)} />
+          <Tab label="Products" {...a11yProps(5)} />
         </Tabs>
       </Box>
 
@@ -96,6 +97,11 @@ export default function AdminHome() {
       <TabPanel value={value} index={4}>
         <Suspense fallback={<AdminTableSkeleton/>}>
           <UnknownVisitor/>
+        </Suspense>
+      </TabPanel>
+      <TabPanel value={value} index={5}>
+        <Suspense fallback={<AdminTableSkeleton/>}>
+          <AdminProducts/>
         </Suspense>
       </TabPanel>
     </Box>

@@ -1,0 +1,25 @@
+{
+  "short_name": "Pragya RO System",
+  "name": "Pragya RO System provides water purifier at lowest price",
+  "icons": [
+    {
+      "src": "pragya.png",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "pragya.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "pragya.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

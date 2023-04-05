@@ -1,4 +1,44 @@
 const unKnownVisitorModal = require("../model/unKnownVisitor");
+const UAParser = require("ua-parser-js");
+const geoip = require("geoip-lite");
+
+const getData = (res) => {
+  // geoip.update();
+  let result = [];
+
+  for (let item of res) {
+    let info = {};
+    info._id = item?._id || "";
+    info.time = item.time;
+    info.ip_address = item.ip_address;
+    info.referrer = item.referrer;
+
+    let parser = new UAParser(item?.user_agent);
+    let uaInfo = parser.getResult();
+
+    const str = item?.ip_address || "";
+    const index = str.indexOf(",");
+    const substr = index !== -1 ? str.substring(0, index) : str;
+    const geo = geoip.lookup(substr);
+
+    info = { ...info, ...geo };
+
+    info.browser = `${uaInfo?.browser?.name || ""} - ${
+      uaInfo?.browser?.version || ""
+    }`;
+    info.engine = `${uaInfo?.engine?.name || ""} - ${
+      uaInfo?.engine?.version || ""
+    }`;
+    info.os = `${uaInfo?.os?.name || ""} - ${uaInfo?.os?.version || ""}`;
+    info.device = `${uaInfo?.device?.vendor || ""} - ${
+      uaInfo?.device?.model || ""
+    } (${uaInfo?.device?.type || ""})`;
+    info.cpu = `${uaInfo?.cpu?.architecture || ""}`;
+
+    result.push(info);
+  }
+  return result;
+};
 
 const createData = (req) => {
   let data = {};
@@ -31,7 +71,10 @@ const getUnKnownVisitors = async (req, res) => {
     visitorData.sort((a, b) =>
       a.time < b.time ? 1 : b.time < a.time ? -1 : 0
     );
-    res.send(visitorData);
+
+    const result = getData(visitorData);
+    // console.log(result, 'result')
+    res.send(result);
   } catch (e) {
     res.send(e);
   }
