@@ -4,9 +4,7 @@ import { CircularProgress, Paper, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 
-import {
-    getAllUnknownVisitors,
-} from "../../../store/admin-action";
+import { getAllUnknownVisitors } from "../../../store/admin-action";
 
 const columns = [
   {
@@ -14,7 +12,6 @@ const columns = [
     headerName: "Time",
     width: 150,
   },
-  { field: "ip_address", headerName: "IP Address", width: 250 },
   {
     field: "referrer",
     headerName: "Referrer",
@@ -22,18 +19,90 @@ const columns = [
     width: 350,
   },
   {
-    field: "user_agent",
-    headerName: "User Agent",
+    field: "country",
+    headerName: "Country",
     type: "string",
-    width: 850,
+    width: 100,
+  },
+  {
+    field: "region",
+    headerName: "Region",
+    type: "string",
+    width: 100,
+  },
+  {
+    field: "timezone",
+    headerName: "Timezone",
+    type: "string",
+    width: 100,
+  },
+  {
+    field: "city",
+    headerName: "City",
+    type: "string",
+    width: 100,
+  },
+  {
+    field: "ll",
+    headerName: "location",
+    type: "string",
+    width: 100,
+    renderCell: ({ row }) => {
+      return row?.ll ? (
+        <a
+          href={`http://maps.google.com/maps?q=${row?.ll?.toString()}`}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Location
+        </a>
+      ) : null;
+    },
+  },
+  {
+    field: "area",
+    headerName: "Area",
+    type: "string",
+    width: 100,
+  },
+  {
+    field: "browser",
+    headerName: "Browser",
+    type: "string",
+    width: 200,
+  },
+  {
+    field: "engine",
+    headerName: "Engine",
+    type: "string",
+    width: 200,
+  },
+  {
+    field: "os",
+    headerName: "OS",
+    type: "string",
+    width: 200,
+  },
+  {
+    field: "device",
+    headerName: "Device",
+    type: "string",
+    width: 300,
+  },
+  {
+    field: "cpu",
+    headerName: "CPU",
+    type: "string",
+    width: 200,
   },
 ];
 
 export default function UnknownVisitor() {
   const dispatch = useDispatch();
 
-  const { unKnownVisitors, unKnownVisitorsLoading } =
-    useSelector((state) => state.admin);
+  const { unKnownVisitors, unKnownVisitorsLoading } = useSelector(
+    (state) => state.admin
+  );
 
   useEffect(() => {
     dispatch(getAllUnknownVisitors());
@@ -48,7 +117,7 @@ export default function UnknownVisitor() {
       timeFromNow: moment(d.time).fromNow(),
     }));
   };
-  console.log(unKnownVisitors, 'unknow')
+
   return (
     <div>
       <Paper
@@ -64,12 +133,15 @@ export default function UnknownVisitor() {
         }}
       >
         <Typography variant="h6" component="h6">
-          Unknown Visitors : 
+          Unknown Visitors :
           {unKnownVisitorsLoading ? (
             <CircularProgress size={15} />
           ) : (
             unKnownVisitors?.length || 0
           )}
+        </Typography>
+        <Typography variant="body2" fontStyle={"italic"} color={"gray"}>
+          *Location may vary
         </Typography>
       </Paper>
       <div style={{ height: 400, width: "100%", margin: "5px auto" }}>
