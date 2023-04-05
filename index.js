@@ -8,6 +8,7 @@ const path = require("path");
 const fileUpload = require("express-fileupload");
 
 const app = express();
+app.enable('trust proxy');
 app.use(cors());
 
 app.use(
