@@ -1,17 +1,21 @@
 const unKnownVisitorModal = require("../model/unKnownVisitor");
 
-const createData = (req)=>{
+const createData = (req) => {
   let data = {};
-  data.ip_address = req?.socket?.remoteAddress || "";
-  data.user_agent = req.get('User-Agent') || "";
+  data.ip_address =
+    req.headers["x-forwarded-for"] ||
+    req.connection.remoteAddress ||
+    req?.socket?.remoteAddress ||
+    "";
+  data.user_agent = req.get("User-Agent") || "";
   data.referrer = req?.headers?.referer || "unknown";
   return data;
-}
+};
 
 // POST //
 const storeUnKnownVisitor = async (req, res) => {
   try {
-    const data = createData(req)
+    const data = createData(req);
     const visitor = new unKnownVisitorModal(data);
     const createUnKnownVisitor = await visitor.save();
     res.status(201).send(createUnKnownVisitor);
@@ -52,9 +56,13 @@ const getUnKnownVisitorDetail = async (req, res) => {
 const updateUnKnownVisitor = async (req, res) => {
   try {
     const _id = req.params.id;
-    const updateUnKnownVisitors = await unKnownVisitorModal.findByIdAndUpdate(_id, req.body, {
-      new: true,
-    });
+    const updateUnKnownVisitors = await unKnownVisitorModal.findByIdAndUpdate(
+      _id,
+      req.body,
+      {
+        new: true,
+      }
+    );
     res.send(updateUnKnownVisitors);
   } catch (e) {
     res.status(404).send(e);
@@ -64,7 +72,9 @@ const updateUnKnownVisitor = async (req, res) => {
 // DELETE VISITORS DATA //
 const deleteUnKnownVisitor = async (req, res) => {
   try {
-    const deleteUnKnownVisitor = await unKnownVisitorModal.findByIdAndDelete(req.params.id);
+    const deleteUnKnownVisitor = await unKnownVisitorModal.findByIdAndDelete(
+      req.params.id
+    );
     if (!req.params.id) {
       return res.status(404).send();
     }
