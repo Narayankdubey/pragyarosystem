@@ -1,11 +1,20 @@
+const productModal = require("../model/product");
 const reviewModal = require("../model/review");
 
 // POST //
 const storeReview = async (req, res) => {
   try {
-    const review = new reviewModal(req.body);
-    const createReview = await review.save();
-    res.status(201).send(createReview);
+    const productId = req.body?.productId;
+    if (productId) {
+      const product = await productModal.findById(productId);
+      if (product && Object.keys(product).length > 0) {
+        const review = new reviewModal(req.body);
+        const createReview = await review.save();
+        res.status(201).send(createReview);
+      } else {
+        res.status(400).send("No Product Found");
+      }
+    } else res.status(400).send("ProductId Required");
   } catch (e) {
     res.status(400).send(e);
   }
@@ -29,10 +38,10 @@ const getReviews = async (req, res) => {
       res.status(400).send("Product id required");
     } else {
       const reviewData = await reviewModal.find({ productId });
-        reviewData.sort((a, b) =>
-          a.time < b.time ? 1 : b.time < a.time ? -1 : 0
-        );
-        res.send(reviewData);
+      reviewData.sort((a, b) =>
+        a.time < b.time ? 1 : b.time < a.time ? -1 : 0
+      );
+      res.send(reviewData);
     }
   } catch (e) {
     res.send(e);
@@ -80,6 +89,22 @@ const deleteReview = async (req, res) => {
   }
 };
 
+const increaseReviewLike = async (req, res) => {
+  try {
+    const reviewId = req.params.id;
+    const review = await reviewModal.findById(reviewId);
+    if (!review) {
+      return res.status(404).json({ error: "Review not found" });
+    }
+    review.like += 1;
+    await review.save();
+    return res.send(review);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 // EXPORT //
 module.exports = {
   getAllReviews,
@@ -88,4 +113,5 @@ module.exports = {
   getReviewDetail,
   updateReview,
   deleteReview,
+  increaseReviewLike,
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState, lazy, Suspense  } from "react";
+import React, { useEffect, useMemo, useState, lazy, Suspense } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -35,6 +35,7 @@ import ProductDetailSkeleton from "../../UI/skeleton/productDetailSkeleton";
 import ReviewModal from "./component/reviewModal";
 // import Review from "./component/review";
 import DeleteModal from "../../admin/deleteModal";
+import PageNotFound from "../../utils/PageNotFound";
 
 const Review = lazy(() => import("./component/review"));
 
@@ -152,6 +153,12 @@ const ProductDetails = () => {
       setTitle("pragya ro system");
     };
   }, [product]);
+
+  if (!productDetailsSkeleton && Object.keys(product).length === 0) {
+    return (
+      <PageNotFound />
+    );
+  }
 
   return (
     <div className="product-detail-container">
@@ -320,8 +327,8 @@ const ProductDetails = () => {
         </>
       )}
       <Suspense fallback={<>Loading...</>}>
-      <Review setReviewModal={setReviewModal} id={id} />
-        </Suspense>
+        <Review setReviewModal={setReviewModal} id={id} loggedIn={loggedIn}/>
+      </Suspense>
       {reviewModal && (
         <ReviewModal {...{ open: reviewModal, setOpen: setReviewModal, id }} />
       )}

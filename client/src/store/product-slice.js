@@ -6,8 +6,9 @@ const initialState = {
   infoModal: false,
   filterElements: {},
   searchSuggestions: [],
-  review:[],
-  reviewLoading:false,
+  review: [],
+  reviewLoading: false,
+  likedReview: JSON.parse(localStorage.getItem("likedReview") || "[]"),
 };
 
 const productSlice = createSlice({
@@ -34,12 +35,20 @@ const productSlice = createSlice({
     updateSearchSuggestions: (state, action) => {
       state.searchSuggestions = action.payload;
     },
-    updateReviewList:(state,action)=>{
+    updateReviewList: (state, action) => {
       state.review = action.payload;
     },
-    updateReviewLoading:(state,action)=>{
+    updateReviewLoading: (state, action) => {
       state.reviewLoading = action.payload;
-    }
+    },
+    updateLikedReview: (state, action) => {
+      const likedReview = JSON.parse(
+        localStorage.getItem("likedReview") || "[]"
+      );
+      likedReview.push(action.payload);
+      localStorage.setItem("likedReview", JSON.stringify(likedReview));
+      state.likedReview = [...state.likedReview, action.payload];
+    },
   },
 });
 export const productActions = productSlice.actions;

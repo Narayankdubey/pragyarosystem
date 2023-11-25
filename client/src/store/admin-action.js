@@ -5,6 +5,7 @@ import { adminActions } from "./admin-slice";
 import { productActions } from "./product-slice";
 import authHeader from "../authHeader";
 import { uiActions } from "./ui-slice";
+import { getReview } from "./product-action";
 
 // const baseURL = "http://localhost:4000/api/";
 const baseURL = process.env.REACT_APP_API_BASE_URL;
@@ -461,6 +462,47 @@ export const sendAllEmail = (data) => {
       }
     } finally {
       dispatch(uiActions.emailSendLoader(false));
+    }
+  };
+};
+
+export const deleteReview = (id) => {
+  return async (dispatch) => {
+    dispatch(uiActions.toggleLoader());
+    const getData = async () => {
+      const response = await axios.delete(`${baseURL}review/${id}`, {
+        headers: authHeader(),
+      });
+      if (response.status === "failure") {
+        throw new Error(response.data.message);
+      }
+      return response;
+    };
+    try {
+      const data = await getData();
+      if (data.status === 200) {
+        dispatch(getReview(data?.data?.productId))
+      }
+      dispatch(
+        uiActions.showNotification({
+          status: "success",
+          title: "success",
+          message: "Review Deleted Successfully !",
+        })
+      );
+    } catch (error) {
+      console.log(error);
+      if (error.response) {
+        dispatch(
+          uiActions.showNotification({
+            status: "error",
+            title: "error",
+            message: error.response.data,
+          })
+        );
+      }
+    } finally {
+      dispatch(uiActions.toggleLoader());
     }
   };
 };

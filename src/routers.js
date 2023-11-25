@@ -171,7 +171,7 @@ Router.get("/service/:id", isAuthorized, getServiceDetail);
 Router.patch("/service/:id", isAuthorized, updateService);
 Router.delete("/service/:id", isAuthorized, deleteService);
 
-////////  VISITOR  ///////
+////////  REVIEW  ///////
 
 const {
   storeReview,
@@ -180,6 +180,7 @@ const {
   getReviewDetail,
   updateReview,
   deleteReview,
+  increaseReviewLike,
 } = require("./controller/reviewController");
 
 Router.post("/review", storeReview);
@@ -188,5 +189,6 @@ Router.get("/one-review/:id", getReviewDetail);
 Router.get("/all-review", getAllReviews);
 Router.patch("/review/:id", updateReview);
 Router.delete("/review/:id", deleteReview);
+Router.post("/review/like/:id", increaseReviewLike);
 
 module.exports = Router;

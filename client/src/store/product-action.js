@@ -86,7 +86,7 @@ export const saveContactUs = (data) => {
   };
 };
 
-export const getProduct = (id="") => {
+export const getProduct = (id = "") => {
   return async (dispatch) => {
     dispatch(uiActions.toggleProductDetailsSkeleton(true));
     const getData = async () => {
@@ -294,7 +294,7 @@ export const saveReview = (data) => {
   return async (dispatch) => {
     dispatch(uiActions.toggleSkeleton(true));
     const saveData = async () => {
-      const response = await axios.post(`${baseURL}review`,data);
+      const response = await axios.post(`${baseURL}review`, data);
       if (response.status === "failure") {
         throw new Error(response.data.message);
       }
@@ -317,6 +317,39 @@ export const saveReview = (data) => {
       }
     } finally {
       dispatch(uiActions.toggleSkeleton(false));
+    }
+  };
+};
+export const increaseReviewLike = (id) => {
+  return async (dispatch) => {
+    // dispatch(uiActions.toggleSkeleton(true));
+    const saveData = async () => {
+      const response = await axios.post(`${baseURL}review/like/${id}`);
+      if (response.status === "failure") {
+        throw new Error(response.data.message);
+      }
+      return response;
+    };
+    try {
+      const data = await saveData();
+      if (data.status === 200) {
+        dispatch(productActions.updateLikedReview(id));
+        dispatch(getReview(data?.data?.productId));
+      }
+    } catch (error) {
+      console.log(error);
+      if (error.response) {
+        // Request made and server responded
+        dispatch(
+          uiActions.showNotification({
+            status: "error",
+            title: "error",
+            message: error.response.data,
+          })
+        );
+      }
+    } finally {
+      // dispatch(uiActions.toggleSkeleton(false));
     }
   };
 };

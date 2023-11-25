@@ -33,6 +33,7 @@ import {
 } from "../src/store/admin-action";
 import { adminActions } from "../src/store/admin-slice";
 import authHeader from "./authHeader";
+import PageNotFound from "./component/utils/PageNotFound";
 
 const Home = lazy(() => import("./component/products/home"));
 
@@ -177,7 +178,7 @@ function App() {
             path="*"
             element={() => (
               <Suspense fallback={<HomeSkeleton />}>
-                <Home />
+                <PageNotFound />
               </Suspense>
             )}
           />

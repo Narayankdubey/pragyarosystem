@@ -15,6 +15,10 @@ const reviewSchema = mongoose.Schema({
   },
   review: String,
   time: { type: Date, default: Date.now },
+  like: {
+    type: Number,
+    default: 0,
+  },
 });
 
 const reviewModal = mongoose.model("reviews", reviewSchema);

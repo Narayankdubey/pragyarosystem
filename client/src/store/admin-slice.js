@@ -6,14 +6,14 @@ const initialState = {
   errMsg: "",
   visitorModal: false,
   visitors: [],
-  visitorsLoader:false,
+  visitorsLoader: false,
   contactUsData: [],
-  contactUsLoader:false,
+  contactUsLoader: false,
   serviceRequestData: [],
-  serviceRequestLoader:false,
-  sentEmailData : [],
-  unKnownVisitors:[],
-  unKnownVisitorsLoading:false,
+  serviceRequestLoader: false,
+  sentEmailData: [],
+  unKnownVisitors: [],
+  unKnownVisitorsLoading: false,
 };
 
 const adminSlice = createSlice({
