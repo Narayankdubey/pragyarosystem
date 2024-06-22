@@ -8,8 +8,8 @@ import { uiActions } from "./ui-slice";
 import { getReview } from "./product-action";
 import { getLocation } from "../component/utils/helper";
 
-const baseURL = "http://localhost:4000/api/";
-// const baseURL = process.env.REACT_APP_API_BASE_URL;
+// const baseURL = "http://localhost:4000/api/";
+const baseURL = process.env.REACT_APP_API_BASE_URL;
 // const baseURL = "https://pragyarosystem.onrender.com/api/";
 
 export const adminLogin = (data) => {
