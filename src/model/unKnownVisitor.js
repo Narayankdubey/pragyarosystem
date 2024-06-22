@@ -13,6 +13,7 @@ const unKnownVisitorSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  location:{},
   time: { type: Date, default: Date.now },
 });
 
