@@ -6,6 +6,14 @@ import moment from "moment";
 
 import { getAllUnknownVisitors } from "../../../store/admin-action";
 
+const loc = (row) => {
+  const location = row?.location || {};
+  if (location?.latitude && location?.longitude) {
+    return `${location?.latitude},${location?.longitude}`;
+  } else if (row?.ll) return row?.ll?.toString();
+  else return null;
+};
+
 const columns = [
   {
     field: "timeFromNow",
@@ -48,15 +56,15 @@ const columns = [
     type: "string",
     width: 100,
     renderCell: ({ row }) => {
-      return row?.ll ? (
+      return (
         <a
-          href={`http://maps.google.com/maps?q=${row?.ll?.toString()}`}
+          href={`http://maps.google.com/maps?q=${loc(row)}`}
           target="_blank"
           rel="noreferrer"
         >
           Location
         </a>
-      ) : null;
+      );
     },
   },
   {

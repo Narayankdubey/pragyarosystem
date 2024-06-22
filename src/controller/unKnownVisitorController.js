@@ -34,6 +34,7 @@ const getData = (res) => {
       uaInfo?.device?.model || ""
     } (${uaInfo?.device?.type || ""})`;
     info.cpu = `${uaInfo?.cpu?.architecture || ""}`;
+    info.location = item?.location || {}
 
     result.push(info);
   }
@@ -56,6 +57,7 @@ const createData = (req) => {
 const storeUnKnownVisitor = async (req, res) => {
   try {
     const data = createData(req);
+    data.location = req.body;
     const visitor = new unKnownVisitorModal(data);
     const createUnKnownVisitor = await visitor.save();
     res.status(201).send(createUnKnownVisitor);

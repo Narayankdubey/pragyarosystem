@@ -6,9 +6,10 @@ import { productActions } from "./product-slice";
 import authHeader from "../authHeader";
 import { uiActions } from "./ui-slice";
 import { getReview } from "./product-action";
+import { getLocation } from "../component/utils/helper";
 
-// const baseURL = "http://localhost:4000/api/";
-const baseURL = process.env.REACT_APP_API_BASE_URL;
+const baseURL = "http://localhost:4000/api/";
+// const baseURL = process.env.REACT_APP_API_BASE_URL;
 // const baseURL = "https://pragyarosystem.onrender.com/api/";
 
 export const adminLogin = (data) => {
@@ -192,15 +193,16 @@ export const getAllVisitors = () => {
 };
 export const saveVisitorsCount = () => {
   return async (dispatch) => {
-    const sendData = async () => {
-      const response = await axios.post(`${baseURL}unknownvisitors`);
+    const sendData = async (loc) => {
+      const response = await axios.post(`${baseURL}unknownvisitors`,loc);
       if (response.status === "failure") {
         throw new Error(response.data.message);
       }
       return response;
     };
     try {
-      await sendData();
+      const location = await getLocation()
+      await sendData(location);
     } catch (error) {
       console.log(error);
       if (error.response) {
