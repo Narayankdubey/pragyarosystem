@@ -1,45 +1,7 @@
 const express = require("express");
+const uploadFile = require("./utils/upload");
 
 const Router = express.Router();
-const path = require("path");
-
-const multer = require("multer");
-const { v4: uuidv4 } = require("uuid");
-
-const productModal = require("./model/product");
-
-// const upload = multer({
-//   limits: {
-//     fileSize: 1000000, // max file size 1MB = 1000000 bytes
-//   },
-//   fileFilter(req, file, cb) {
-//     if (!file.originalname.match(/\.(jpeg|jpg)$/)) {
-//       cb(new Error("only upload files with jpg or jpeg format."));
-//     }
-//     cb(undefined, true); // continue with upload
-//   },
-// });
-
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, "../public/uploads"));
-  },
-  filename: function (req, file, cb) {
-    console.log(file.originalname, "*********got file original name*********");
-    cb(null, Date.now() + path.extname(file.originalname));
-  },
-});
-
-const fileFilter = (req, file, cb) => {
-  const allowedFileTypes = ["image/jpeg", "image/jpg", "image/png"];
-  if (allowedFileTypes.includes(file.mimetype)) {
-    cb(null, true);
-  } else {
-    cb(null, false);
-  }
-};
-
-let upload = multer({ storage, fileFilter });
 
 ///////// LOGIN - LOGOUT //////////
 
@@ -57,7 +19,7 @@ const {
   getAdmins,
   getAdminDetail,
   updateAdmin,
-  deleteAdmin,
+  deleteAdmin
 } = require("./controller/adminController");
 
 Router.post("/admins", isAuthorized, storeAdmin);
@@ -73,7 +35,7 @@ const {
   getUsers,
   getuserDetail,
   updateuser,
-  deleteUser,
+  deleteUser
 } = require("./controller/userController");
 
 Router.post("/users", storeUser);
@@ -89,14 +51,14 @@ const {
   getVisitors,
   getVisitorDetail,
   updateVisitor,
-  deleteVisitor,
+  deleteVisitor
 } = require("./controller/visitorController");
 
 Router.post("/visitors", storeVisitor);
 Router.get("/visitors", isAuthorized, getVisitors);
-Router.get("/visitors/:id",isAuthorized, getVisitorDetail);
-Router.patch("/visitors/:id",isAuthorized, updateVisitor);
-Router.delete("/visitors/:id",isAuthorized, deleteVisitor);
+Router.get("/visitors/:id", isAuthorized, getVisitorDetail);
+Router.patch("/visitors/:id", isAuthorized, updateVisitor);
+Router.delete("/visitors/:id", isAuthorized, deleteVisitor);
 
 //////// UNKNOWN VISITOR  ///////
 
@@ -105,7 +67,7 @@ const {
   getUnKnownVisitors,
   getUnKnownVisitorDetail,
   updateUnKnownVisitor,
-  deleteUnKnownVisitor,
+  deleteUnKnownVisitor
 } = require("./controller/unKnownVisitorController");
 Router.post("/unknownvisitors", storeUnKnownVisitor);
 Router.get("/unknownvisitors", isAuthorized, getUnKnownVisitors);
@@ -122,7 +84,7 @@ const {
   updateProduct,
   deleteProduct,
   filterElements,
-  searchSuggestion,
+  searchSuggestion
 } = require("./controller/productsController");
 
 // Router.post("/products", isAuthorized, upload.single("img"), storeProducts);
@@ -143,7 +105,7 @@ const {
   getContactUsDetail,
   updateContactUs,
   deleteContactUs,
-  sendEmails,
+  sendEmails
 } = require("./controller/contactUsController");
 
 // Router.post("/products", isAuthorized, upload.single("img"), storeProducts);
@@ -161,7 +123,7 @@ const {
   getService,
   getServiceDetail,
   updateService,
-  deleteService,
+  deleteService
 } = require("./controller/serviceController");
 
 // Router.post("/products", isAuthorized, upload.single("img"), storeProducts);
@@ -180,7 +142,7 @@ const {
   getReviewDetail,
   updateReview,
   deleteReview,
-  increaseReviewLike,
+  increaseReviewLike
 } = require("./controller/reviewController");
 
 Router.post("/review", storeReview);
@@ -190,5 +152,32 @@ Router.get("/all-review", getAllReviews);
 Router.patch("/review/:id", updateReview);
 Router.delete("/review/:id", deleteReview);
 Router.post("/review/like/:id", increaseReviewLike);
+
+///////////  C U S T O M E R  /////////
+
+const {
+  storeCustomer,
+  getCustomer,
+  getCustomerDetail,
+  updateCustomer,
+  deleteCustomer,
+  createCustomerWithImport
+} = require("./controller/customerController");
+
+Router.post("/customer", storeCustomer);
+Router.get("/customer", getCustomer);
+Router.get("/customer/:id", isAuthorized, getCustomerDetail);
+Router.patch("/customer/:id", isAuthorized, updateCustomer);
+Router.delete("/customer/:id", isAuthorized, deleteCustomer);
+// Router.post(
+//   "/import-customers",
+//   uploadFile.single("file"),
+//   createCustomerWithImport
+// );
+Router.post(
+  "/import-customers",
+  [uploadFile.single("file")],
+  createCustomerWithImport
+);
 
 module.exports = Router;
